@@ -3,7 +3,7 @@
 
 #Data Types Challenge
 
-#os does not work for me
+#os clear does not work for me
 import os
 os.system('cls')
 
@@ -38,4 +38,3 @@ mod2 = int(input("Enter another number: "))
 mod = mod1 % mod2
 
 print("% (remainder):", mod)
-
