@@ -40,25 +40,63 @@ elif check == "float":
 else:
     print("input is a string")
 
+print()
+print()
+
 
 
 #Calculate addition, subtraction, multiplication, and division of 2 variables of same type 
 #Print the result 
-num1 = int(input("Enter a number: "))
-num2 = int(input("Enter another number: "))
+num1 = input("Enter a number: ")
+num2 = input("Enter another number: ")
 
-add = num1 + num2
-sub = num1 - num2
-mult = num1 * num2
-div = num1 / num2
+try:
+    int(num1)
+    int(num2)
+    check = True
+except ValueError:
+    check = False
 
-print("+:", add, ", -:", sub, ", *:", mult, ", /:", div)
+if check == True:
+    num1 = int(num1)
+    num2 = int(num2)
+    add = num1 + num2
+    sub = num1 - num2
+    mult = num1 * num2
+    div = num1 / num2
+
+    print("+:", add, ", -:", sub, ", *:", mult, ", /:", div)
+
+else:
+    print("input were not numbers")
+
+print()
+print()
+
+
 
 #Calculate the modulus of two of the variables
 #Modulus is a operator that finds the remainder after division
+
 mod1 = int(input("Enter a number: "))
 mod2 = int(input("Enter another number: "))
 
-mod = mod1 % mod2
+try:
+    int(mod1)
+    int(mod2)
+    check = True
+except ValueError:
+    check = False
 
-print("% (remainder):", mod)
+if check == True:
+    mod1 = int(mod1)
+    mod2 = int(mod2)
+    mod = mod1 % mod2
+
+    print("% (remainder):", mod)
+
+    
+    
+
+else:
+    print("input were not numbers")
