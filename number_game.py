@@ -10,12 +10,13 @@ os.system('cls')
 import random
 
 random_num = random.randint(0, 100)
-print(random_num)
 
 # input_num = input("Guess a number between 0 to 10: ")
 running = 1
 check = False
 chances = 10
+
+# print(random_num)
 
 while running and chances != 0:
     print()
@@ -51,6 +52,8 @@ while running and chances != 0:
             
             elif input_num > random_num:
                 print("Number is too big!")
+        else:
+            print("Getting close")
         
     chances -=1
 
