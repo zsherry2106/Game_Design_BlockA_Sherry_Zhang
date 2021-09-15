@@ -8,15 +8,15 @@ import os
 os.system('cls')
 
 #create variables with dfferent data types and print data type
-variable1 = "hello"
-variable2 = True
-variable3 = 19
-variable4 = 20.1
+# variable1 = "hello"
+# variable2 = True
+# variable3 = 19
+# variable4 = 20.1
 
-print(variable1, "data type:", type(variable1))
-print(variable2, "data type:", type(variable2))
-print(variable3, "data type:", type(variable3))
-print(variable4, "data type:", type(variable4))
+# print(variable1, "data type:", type(variable1))
+# print(variable2, "data type:", type(variable2))
+# print(variable3, "data type:", type(variable3))
+# print(variable4, "data type:", type(variable4))
 
 input1 = input("Enter something ")
 check = "str"
@@ -39,6 +39,8 @@ elif check == "float":
 
 else:
     print("input is a string")
+
+
 
 #Calculate addition, subtraction, multiplication, and division of 2 variables of same type 
 #Print the result 
