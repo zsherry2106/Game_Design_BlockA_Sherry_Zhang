@@ -18,6 +18,28 @@ print(variable2, "data type:", type(variable2))
 print(variable3, "data type:", type(variable3))
 print(variable4, "data type:", type(variable4))
 
+input1 = input("Enter something ")
+check = "str"
+
+try:
+    int(input1)
+    check = "int"
+except ValueError:
+    try:
+        float(input1)
+        check = "float"
+    except ValueError:
+        pass
+
+if check == "int":
+    print("input is an integer")
+
+elif check == "float":
+    print("input is a float")
+
+else:
+    print("input is a string")
+
 #Calculate addition, subtraction, multiplication, and division of 2 variables of same type 
 #Print the result 
 num1 = int(input("Enter a number: "))
