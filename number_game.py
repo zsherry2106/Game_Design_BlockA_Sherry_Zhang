@@ -56,5 +56,6 @@ while running and chances != 0:
             print("Getting close")
         
     chances -=1
+    print("Chances left:", chances)
 
 print()
