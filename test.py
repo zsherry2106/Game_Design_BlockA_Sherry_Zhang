@@ -6,6 +6,4 @@
 
 #os clear does not work for me
 
-num = "0123456789"
-
-print(num[0])
+print(int("-1"))

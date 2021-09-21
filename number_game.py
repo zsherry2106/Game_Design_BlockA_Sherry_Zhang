@@ -16,9 +16,10 @@ running = 1
 check = False
 chances = 10
 
-# print(random_num)
+print(random_num)
 
-while running and chances != 0:
+print("Guess a number between 0 to 100, you have 10 chances")
+while running:
     print()
     input_num = input("Guess a number between 0 to 100, type stop to end: ")
 
@@ -35,27 +36,47 @@ while running and chances != 0:
 
     if check == True:
         input_num = int(input_num)
-
-        if input_num == random_num:
-            print("You guessed the number!")
-            play_again = input("Play again? Type Y or N ")
-            play_again = play_again.lower()
-            
-            if play_again == "y":
-                random_num = random.randint(0, 100)
-            elif play_again == "n":
-                running = 0
         
-        if abs(input_num - random_num) > 25:
-            if input_num < random_num:
-                print("Number is too small!")
+        if 0 < input_num < 100:
+            if abs(input_num - random_num) > 25:
+                if input_num < random_num:
+                    print("Number is too small!")
+                
+                elif input_num > random_num:
+                    print("Number is too big!")
+            elif abs(input_num - random_num) > 25 and input_num != random_num:
+                print("Getting close")
             
-            elif input_num > random_num:
-                print("Number is too big!")
-        else:
-            print("Getting close")
+            if input_num == random_num:
+                print()
+                print("You guessed the number!")
+                play_again = input("Play again? Type Y if yes, type anything else if no ")
+                play_again = play_again.lower()
+                
+                if play_again == "y":
+                    chances = 11
+                    input_num = False
+                    random_num = random.randint(0, 100)
+                else:
+                    running = 0
+        
+        elif 100 < input_num or input_num < 0:
+            print("Number was not between 0 and 100")
         
     chances -=1
-    print("Chances left:", chances)
+
+    if chances == 0:# and running == 1:
+        print(running)
+        print()
+        print("You lost! The number was", random_num)
+        play_again = input("Play again? Type Y if yes, type anything else if no ")
+        play_again = play_again.lower()
+        
+        if play_again == "y":
+            random_num = random.randint(0, 100)
+        else:
+            running = 0
+    elif running == 1 and input_num != False:
+        print("Chances left:", chances)
 
 print()
