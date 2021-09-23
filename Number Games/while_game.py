@@ -12,14 +12,14 @@ os.system('cls')
 
 import random
 
+print("Guess a number between 0 to 100, you have 10 chances")
 playing = input("Do you want to play this game? Type yes or y ")
 
 #While user wants to play the game
 while "y" in playing:
-    print("Guess a number between 0 to 100, you have 10 chances")
     random_num = random.randint(0, 100)
     print(random_num)
-    check = False
+    check_int = False
     chances = 10
     running = 1
 
@@ -34,15 +34,14 @@ while "y" in playing:
         #Try to convert to int
         try:
             int(input_num)
-            check = True
+            check_int = True
 
         except ValueError:
             if input_num != "stop":
                 print("Input was not a number")
-                check = False
 
         #if value is int
-        if check == True:
+        if check_int == True:
             input_num = int(input_num)
             
             #if number is between 0 and 100, continue
@@ -83,6 +82,5 @@ while "y" in playing:
         elif running == 1 and input_num != False:
             print("Chances left:", chances)
 
-    print()
+    print("The number was", random_num)
     playing = input("Play again? Type yes or y ")
-
