@@ -12,8 +12,6 @@ os.system('cls')
 
 import random
 
-running = 1
-
 playing = input("Do you want to play this game? Type yes or y ")
 
 #While user wants to play the game
@@ -23,6 +21,7 @@ while "y" in playing:
     print(random_num)
     check = False
     chances = 10
+    running = 1
 
     #while user still has guesses and hasn't guessed the number
     while running:
@@ -59,7 +58,7 @@ while "y" in playing:
                         print("Number is too big!")
 
                 #If number is within 25 of random number, give no hints
-                elif abs(input_num - random_num) > 25 and input_num != random_num:
+                else:
                     print("Getting close")
                 
                 #If number is guessed, ask to play again
