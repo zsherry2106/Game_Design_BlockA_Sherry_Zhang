@@ -5,7 +5,7 @@
 
 #os clear doens't work for me
 import os
-os.system('cls')
+os.system('clear')
 print()
 
 import random
