@@ -90,3 +90,4 @@ while "y" in playing:
     
     print("the word was", random_anim)
     playing = input("Do you want to play again? ")
+    char_list = []
