@@ -13,12 +13,13 @@ char_list = []
 
 chance_check = False
 
-playing = input("Do you want to play hangman? ")
+print("In this game, you will guess letters in an animal's name one by one. You will only lose a chance if you guess incorrectly.")
+playing = input("Do you want to play this game? ")
 
 #while the player wants to play
 while "y" in playing:
     random_anim = random.choice(animals)
-    print(random_anim)
+    # print(random_anim)
     running = 1
 
     #create character lists with _ to display guesses
