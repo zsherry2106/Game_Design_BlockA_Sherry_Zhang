@@ -14,26 +14,23 @@ colors = ["blue", "green", "red", "orange", "yellow"]
 char_list = []
 
 def Menu():
-    #Create a menu to play game within categories of words
-    print("""
-        Menu
-     1. Animals
-     2. Fruits
-     3. Colors
-     4. Exit
-    """)
+    while 1:
+        #Create a menu to play game within categories of words
+        print("""
+            Menu
+        1. Animals
+        2. Fruits
+        3. Colors
+        4. Exit
+        """)
 
-    selection = input("Which category would you like? ")
+        selection = input("Which category would you like? ")
 
-    try:
-        selection = int(selection)
-    
-    except ValueError:
-        print("Please enter a category by number")
-        print()
-        Menu()
-
-    return selection
+        if not selection.isalpha():
+            return int(selection)
+        
+        else:
+            print("Please enter a number")
 
 def selectWord(selection):
     # print(type(selection))
