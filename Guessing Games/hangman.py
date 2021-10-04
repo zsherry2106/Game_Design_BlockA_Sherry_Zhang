@@ -8,21 +8,55 @@ os.system('clear')
 
 import random
 
-animals = ["tiger", "lion", "elephant", "giraffe"]
+animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan", "bear", "panda"]
+fruits = ["strawberry", "grape", "apple"]
+colors = ["blue", "green", "red", "orange", "yellow"]
 char_list = []
 
-print("In this game, you will guess letters in an animal's name one by one. You will only lose a chance if you guess incorrectly.")
-playing = input("Do you want to play this game? ")
+def Menu():
+    #Create a menu to play game within categories of words
+    print("""
+        Menu
+     1. Animals
+     2. Fruits
+     3. Colors
+     4. Exit
+    """)
 
-#while the player wants to play
-while "y" in playing:
-    random_anim = random.choice(animals)
-    # print(random_anim)
+    selection = input("Which category would you like? ")
+
+    try:
+        selection = int(selection)
+    
+    except ValueError:
+        print("Please enter a category by number")
+        print()
+        Menu()
+
+    return selection
+
+def selectWord(selection):
+    # print(type(selection))
+    if selection == 1:
+        word = random.choice(animals)
+
+    elif selection == 2:
+        word = random.choice(fruits)
+    
+    elif selection == 3:
+        word = random.choice(colors)
+
+    return word
+
+choice = Menu()
+while choice != 4:
+    random_word = selectWord(choice)
+    print(random_word)
 
     #create character lists with _ to display guesses
-    char_list = ["_ "] * len(random_anim)
+    char_list = ["_ "] * len(random_word)
     
-    chances = len(random_anim) + 3
+    chances = len(random_word) + 3
     print(f"You have {chances} chances")
     print()
 
@@ -41,14 +75,14 @@ while "y" in playing:
 
         elif guess.isalpha() and len(guess) == 1:
             #check if guess is in random word
-            if guess in random_anim:
-                for i in range(len(random_anim)):
-                    if random_anim[i] == guess:
+            if guess in random_word:
+                for i in range(len(random_word)):
+                    if random_word[i] == guess:
                         char_list[i] = guess
                         str_char = "".join(char_list)
             
                 #check if the player has won
-                if str_char == random_anim:
+                if str_char == random_word:
                     print("You won!")
                     break
             
@@ -71,6 +105,6 @@ while "y" in playing:
         
         print()
     
-    print("the word was", random_anim)
-    playing = input("Do you want to play again? ")
+    print("the word was", random_word)
+    choice = Menu()
     char_list = []

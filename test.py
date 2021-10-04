@@ -6,4 +6,6 @@
 
 #os clear does not work for me
 
-print(int("-1"))
+print("""kdwjlj
+test
+""")
