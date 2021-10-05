@@ -8,7 +8,7 @@ os.system('clear')
 
 import random
 
-animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan", "bear", "panda"]
+animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan", "bear"]
 fruits = ["strawberry", "grape", "apple"]
 colors = ["blue", "green", "red", "orange", "yellow"]
 char_list = []
