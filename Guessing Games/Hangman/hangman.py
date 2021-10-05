@@ -27,7 +27,11 @@ def Menu():
         selection = input("Which category would you like? ")
 
         if not selection.isalpha():
-            return int(selection)
+            selection = int(selection)
+            if selection <= 4:
+                return selection
+            else:
+                print("Please enter a number between 1 and 4")
         
         else:
             print("Please enter a number")
@@ -65,7 +69,7 @@ while choice != 4:
 
     #while the player hasn't won or still has chances
     while 1:
-        guess = input("Guess a letter of an animal, type stop to end: ")
+        guess = input("Guess a letter of the word, type stop to end: ")
         guess = guess.lower()
         print()
 
