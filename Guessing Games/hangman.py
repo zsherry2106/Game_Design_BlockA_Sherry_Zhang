@@ -45,10 +45,12 @@ def selectWord(selection):
 
     return word
 
+
+
 choice = Menu()
 while choice != 4:
     random_word = selectWord(choice)
-    print(random_word)
+    # print(random_word)
 
     #create character lists with _ to display guesses
     char_list = ["_ "] * len(random_word)
