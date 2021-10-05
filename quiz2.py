@@ -1,7 +1,7 @@
 # Sherry Zhang
 # 10/5/21
 
-# Quiz number 1
+# Quiz number 2
 
 import os
 os.system('clear')
