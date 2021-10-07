@@ -133,4 +133,4 @@ print(max(high_score))
 
 this_folder = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
-    myfile.write(f"\n{max(high_score)}")
+    myfile.write(f"\n{name} {max(high_score)}")
