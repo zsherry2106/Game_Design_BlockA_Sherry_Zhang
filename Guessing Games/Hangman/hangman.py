@@ -131,6 +131,6 @@ while choice != 4 and playing_count < 3:
 print(high_score)
 print(max(high_score))
 
-score_file = open("hangman.txt", "a")  # append mode
-score_file.write(f"{max(high_score)}")
-score_file.close()
+this_folder = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
+    myfile.write(f"\n{max(high_score)}")
