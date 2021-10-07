@@ -130,3 +130,7 @@ while choice != 4 and playing_count < 3:
 
 print(high_score)
 print(max(high_score))
+
+score_file = open("hangman.txt", "a")  # append mode
+score_file.write(f"{max(high_score)}")
+score_file.close()
