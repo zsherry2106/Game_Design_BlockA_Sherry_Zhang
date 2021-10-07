@@ -14,6 +14,12 @@ colors = ["blue", "green", "red", "orange", "yellow"]
 char_list = [] #list used to store characters ex: _ or letters that are correct
 
 def Menu():
+    print("Scoreboard")
+    this_folder = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
+        print(myfile.read())
+        myfile.close()
+
     while 1:
         #Create a menu to play game within categories of words
         print("""
@@ -128,9 +134,13 @@ while choice != 4 and playing_count < 3:
     if playing_count != 3:
         choice = Menu()
 
-print(high_score)
-print(max(high_score))
-
 this_folder = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
     myfile.write(f"\n{name} {max(high_score)}")
+    myfile.close()
+
+print("Scoreboard:")
+this_folder = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
+    print(myfile.read())
+    myfile.close()
