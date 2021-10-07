@@ -11,7 +11,7 @@ import random
 animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan", "bear"]
 fruits = ["strawberry", "grape", "apple"]
 colors = ["blue", "green", "red", "orange", "yellow"]
-char_list = []
+char_list = [] #list used to store characters ex: _ or letters that are correct
 
 def Menu():
     while 1:
@@ -49,12 +49,17 @@ def selectWord(selection):
 
     return word
 
+name = input("What is your name: ")
 
+playing_count = 0
+high_score = []
 
-choice = Menu()
-while choice != 4:
+choice = Menu() #choose which category from menu
+while choice != 4 and playing_count < 3:
     random_word = selectWord(choice)
-    # print(random_word)
+    print(random_word)
+    score = 0
+    playing_count += 1
 
     #create character lists with _ to display guesses
     char_list = ["_ "] * len(random_word)
@@ -78,7 +83,7 @@ while choice != 4:
 
         elif guess.isalpha() and len(guess) == 1:
             #check if guess is in random word
-            if guess in random_word:
+            if guess in random_word and guess not in char_list:
                 for i in range(len(random_word)):
                     if random_word[i] == guess:
                         char_list[i] = guess
@@ -108,6 +113,20 @@ while choice != 4:
         
         print()
     
+    #Give user 1 point for every correct guess
+    for i in char_list:
+        if i.isalpha():
+            score += 1
+    
+    score += chances
+    high_score.append(score)
+    
     print("the word was", random_word)
-    choice = Menu()
+    print("your score was", score)
     char_list = []
+
+    if playing_count != 3:
+        choice = Menu()
+
+print(high_score)
+print(max(high_score))
