@@ -4,7 +4,7 @@
 #Hangman game 
 
 import os
-from datetime import date
+from datetime import datetime
 os.system('clear')
 
 import random
@@ -16,11 +16,8 @@ char_list = [] #list used to store characters ex: _ or letters that are correct
 
 this_folder = os.path.dirname(os.path.abspath(__file__))
 
+#creates categories for player to choose from
 def Menu():
-    print("Scoreboard")
-    with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
-        print(myfile.read())
-
     while 1:
         #Create a menu to play game within categories of words
         print("""
@@ -28,14 +25,15 @@ def Menu():
         1. Animals
         2. Fruits
         3. Colors
-        4. Exit
+        4. Scoreboard
+        5. Exit
         """)
 
         selection = input("Which category would you like? ")
 
         if selection.isdigit():
             selection = int(selection)
-            if selection <= 4:
+            if selection <= 5:
                 return selection
             else:
                 print("Please enter a number between 1 and 4")
@@ -43,6 +41,7 @@ def Menu():
         else:
             print("Please enter a number")
 
+#Uses selection from menu to select word from proper list
 def selectWord(selection):
     # print(type(selection))
     if selection == 1:
@@ -62,7 +61,14 @@ playing_count = 0
 high_score = []
 
 choice = Menu() #choose which category from menu
-while choice != 4 and playing_count < 3:
+
+#print scoreboard
+if choice == 4:
+    print("Scoreboard")
+    with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
+        print(myfile.read())
+
+while choice < 4 and playing_count < 3:
     random_word = selectWord(choice)
     print(random_word)
     score = 0
@@ -94,12 +100,12 @@ while choice != 4 and playing_count < 3:
                     if random_word[i] == guess:
                         char_list[i] = guess
                         str_char = "".join(char_list)
-                        score += 1
+                        score += 3
             
                 #check if the player has won
                 if str_char == random_word:
                     print("You won!")
-                    score += chances
+                    score += 5*chances
                     break
             
             else:
@@ -126,10 +132,14 @@ while choice != 4 and playing_count < 3:
     if playing_count != 3:
         choice = Menu()
 
+#If player exits at the beginning, do not run this code
+if len(high_score) != 0:
+    now = datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
-with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
-    myfile.write(f"\n{name} {date.today()} {max(high_score)}")
+    with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
+        myfile.write(f"\n{name} {dt_string} {max(high_score)}")
 
-print("Scoreboard:")
-with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
-    print(myfile.read())
+    print("\nScoreboard:")
+    with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
+        print(myfile.read())
