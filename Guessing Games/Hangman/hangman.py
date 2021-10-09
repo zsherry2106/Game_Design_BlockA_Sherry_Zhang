@@ -4,6 +4,7 @@
 #Hangman game 
 
 import os
+from datetime import date
 os.system('clear')
 
 import random
@@ -13,12 +14,12 @@ fruits = ["strawberry", "grape", "apple"]
 colors = ["blue", "green", "red", "orange", "yellow"]
 char_list = [] #list used to store characters ex: _ or letters that are correct
 
+this_folder = os.path.dirname(os.path.abspath(__file__))
+
 def Menu():
     print("Scoreboard")
-    this_folder = os.path.dirname(os.path.abspath(__file__))
     with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
         print(myfile.read())
-        myfile.close()
 
     while 1:
         #Create a menu to play game within categories of words
@@ -32,7 +33,7 @@ def Menu():
 
         selection = input("Which category would you like? ")
 
-        if not selection.isalpha():
+        if selection.isdigit():
             selection = int(selection)
             if selection <= 4:
                 return selection
@@ -71,8 +72,7 @@ while choice != 4 and playing_count < 3:
     char_list = ["_ "] * len(random_word)
     
     chances = len(random_word) + 3
-    print(f"You have {chances} chances")
-    print()
+    print(f"You have {chances} chances\n")
 
     str_char = "".join(char_list)
 
@@ -94,37 +94,29 @@ while choice != 4 and playing_count < 3:
                     if random_word[i] == guess:
                         char_list[i] = guess
                         str_char = "".join(char_list)
+                        score += 1
             
                 #check if the player has won
                 if str_char == random_word:
                     print("You won!")
+                    score += chances
                     break
             
             else:
+                print("You already guessed that letter!")
                 chances -= 1
-                print("incorrect guess")
-                if chances == 0:
-                    print("Ran out of chances")
-                    break 
-
+            
         else:
-            chances -= 1
             print("Please guess a letter")
-            if chances == 0:
-                print("You ran out of guesses")
-                break
+            chances -= 1
+
+        if chances == 0:
+            print("You ran out of guesses")
+            break
 
         print("Chances left", chances)
-        print(str_char)
-        
-        print()
+        print(f"{str_char}\n")
     
-    #Give user 1 point for every correct guess
-    for i in char_list:
-        if i.isalpha():
-            score += 1
-    
-    score += chances
     high_score.append(score)
     
     print("the word was", random_word)
@@ -134,13 +126,10 @@ while choice != 4 and playing_count < 3:
     if playing_count != 3:
         choice = Menu()
 
-this_folder = os.path.dirname(os.path.abspath(__file__))
+
 with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
-    myfile.write(f"\n{name} {max(high_score)}")
-    myfile.close()
+    myfile.write(f"\n{name} {date.today()} {max(high_score)}")
 
 print("Scoreboard:")
-this_folder = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
     print(myfile.read())
-    myfile.close()
