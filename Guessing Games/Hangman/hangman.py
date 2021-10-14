@@ -125,7 +125,7 @@ while choice < 4 and playing_count < 3:
     
     high_score.append(score)
     
-    print("the word was", random_word)
+    print("\nthe word was", random_word)
     print("your score was", score)
     char_list = []
 
