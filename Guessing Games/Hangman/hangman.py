@@ -9,9 +9,9 @@ os.system('clear')
 
 import random
 
-animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan", "bear"]
-fruits = ["strawberry", "grape", "apple"]
-colors = ["blue", "green", "red", "orange", "yellow"]
+animals = ["tiger", "lion", "elephant", "giraffe", "monkey", "toucan"]
+fruits = ["strawberry", "grape", "apple", "kiwi", "pineapple", "watermelon"]
+colors = ["blue", "green", "red", "orange", "yellow", "pink"]
 char_list = [] #list used to store characters ex: _ or letters that are correct
 
 this_folder = os.path.dirname(os.path.abspath(__file__))
@@ -137,9 +137,11 @@ if len(high_score) != 0:
     now = datetime.now()
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
 
+    #adds highscore to txt file
     with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
-        myfile.write(f"\n{name} {dt_string} {max(high_score)}")
+        myfile.write(f"\n{name} \tHighest score:\t {dt_string} {max(high_score)}")
 
+    #Prints scoreboard at end
     print("\nScoreboard:")
     with open(os.path.join(this_folder, 'hangman.txt'), "r") as myfile:
         print(myfile.read())
