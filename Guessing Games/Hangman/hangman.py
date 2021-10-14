@@ -70,7 +70,7 @@ if choice == 4:
 
 while choice < 4 and playing_count < 3:
     random_word = selectWord(choice)
-    print(random_word)
+    # print(random_word)
     score = 0
     playing_count += 1
 
