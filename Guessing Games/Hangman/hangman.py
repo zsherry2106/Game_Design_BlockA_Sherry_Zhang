@@ -32,8 +32,7 @@ def Menu():
         selection = input("Which category would you like? ")
 
         if selection.isdigit() and int(selection) <= 5:
-            selection = int(selection)
-            return selection
+            return int(selection)
         else:
             print("Please enter a number between 1 and 4")
 
@@ -136,5 +135,3 @@ if len(high_score) != 0:
     #adds highscore to txt file
     with open(os.path.join(this_folder, 'hangman.txt'), "a") as myfile:
         myfile.write(f"\n{name} \tHighest score:\t {dt_string} {max(high_score)}")
-
-
