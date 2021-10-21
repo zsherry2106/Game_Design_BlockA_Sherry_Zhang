@@ -16,28 +16,23 @@ if test_case.isdigit():
     while count_test < test_case:
         count_test += 1
 
-        cases = int(input("Enter # of cases: "))
+        cases = input("Enter # of cases: ")
 
         websites = []
         check = []
 
-        while count_case < cases:
-            count_case += 1
-            web = input("Enter a website and kilobytes: ")
-            websites.append(web)
-        
-        for web in websites:
-            web = web.split(" ")
-            if int(web[1]) > 1000 and 'lmco' not in web[0]:
-                check.append(web)
+        if cases.isdigit():
+            cases = int(cases)
 
-        print(check)
+            while count_case < cases:
+                count_case += 1
+                web = input("Enter a website and kilobytes: ")
+                websites.append(web)
 
+            for web in websites:
+                web = web.split(" ")
+                if int(web[1]) > 1000 and 'lmco' not in web[0]:
+                    check.append(web)
 
-# web = web.split(" ")
-
-# if int(web[1]) > 1000 and 'lmco' not in web[0]:
-#     check.append(web)
-
-#         print(check)
-        
+        for i in check:
+            print(' '.join(i))
