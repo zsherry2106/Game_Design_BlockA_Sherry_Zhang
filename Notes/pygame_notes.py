@@ -72,8 +72,8 @@ while running:
     left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
     # mouse = pygame.mouse.get_pos()
     # print(mouse
-    pygame.draw.rect(window, colors.get('blue'), (rect_x, rect_y, wbox, hbox))
-    pygame.draw.circle(window, colors.get('red'), (circle_x, circle_y), radius)
+    rect = pygame.draw.rect(window, colors.get('blue'), (rect_x, rect_y, wbox, hbox))
+    circle = pygame.draw.circle(window, colors.get('red'), (circle_x, circle_y), radius)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -111,6 +111,10 @@ while running:
         circle_x -= speed
     elif keyPressed[pygame.K_d] and circle_x <  width - radius:
         circle_x += speed
+    
 
+    if rect.colliderect(circle):
+        rect_x = random.randint(0, width - wbox)
+        rect_y = random.randint(0, height - hbox)
 
     pygame.display.flip()
