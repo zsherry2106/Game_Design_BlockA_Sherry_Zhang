@@ -42,19 +42,28 @@ window = pygame.display.set_mode((width, height))
 
 # color = input("Enter a color, red, green, blue, white, or black: ")
 # color = colors.get(color)
-color = random.choice(list(colors.keys()))
+# color = random.choice(list(colors.keys()))
+color = 'white'
 color = colors.get(color)
 
 window.fill(color)
 pygame.display.set_caption("Game Window")
 running = True
+
+
 rect_y = height/2
 rect_x = width/2
+
 wbox = 30
 hbox = 30
+
+
 radius = wbox/2
+circle_x = width/4
+circle_y = height/4
+
+
 speed = 5
-rect = pygame.Rect(width/2, height/2, wbox, hbox)
 # circle = pygame.circle(width/4, height/4, radius)
 
 while running:
@@ -63,34 +72,45 @@ while running:
     left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
     # mouse = pygame.mouse.get_pos()
     # print(mouse
-    pygame.draw.rect(window, colors.get('blue'), rect)
-    # pygame.draw.circle(window, colors.get('blue'), (width/4, height/4), radius)
+    pygame.draw.rect(window, colors.get('blue'), (rect_x, rect_y, wbox, hbox))
+    pygame.draw.circle(window, colors.get('red'), (circle_x, circle_y), radius)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     
     keyPressed = pygame.key.get_pressed()
+
     if keyPressed[pygame.K_UP]:
         rect_y -= speed
-    if keyPressed[pygame.K_DOWN]:
+    elif keyPressed[pygame.K_DOWN]:
         rect_y += speed
+
     if keyPressed[pygame.K_RIGHT]:
         rect_x += speed
-    if keyPressed[pygame.K_LEFT]:
+    elif keyPressed[pygame.K_LEFT]:
         rect_x -= speed
-    
-    # print(rect_y)
 
-    if rect_y == 0:
+    if rect_y <= 0:
         rect_y = height - hbox
-    if rect_y == height:
+    elif rect_y >= height:
         rect_y = 0
 
-    if rect_x == 0:
+    if rect_x <= 0:
         rect_x = width - wbox
-    if rect_x == width:
+    elif rect_x >= width:
         rect_x = 0
+    
+
+    if keyPressed[pygame.K_w] and circle_y > radius:
+        circle_y -= speed
+    elif keyPressed[pygame.K_s] and circle_y < height - radius:
+        circle_y += speed
+
+    if keyPressed[pygame.K_a] and circle_x > radius:
+        circle_x -= speed
+    elif keyPressed[pygame.K_d] and circle_x <  width - radius:
+        circle_x += speed
 
 
     pygame.display.flip()
