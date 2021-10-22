@@ -62,6 +62,7 @@ radius = wbox/2
 circle_x = width/4
 circle_y = height/4
 
+score = 3
 
 speed = 5
 # circle = pygame.circle(width/4, height/4, radius)
@@ -111,9 +112,14 @@ while running:
         circle_x -= speed
     elif keyPressed[pygame.K_d] and circle_x <  width - radius:
         circle_x += speed
+
     
+    if score == 0:
+        print("Blue Lost!")
+        running = False
 
     if rect.colliderect(circle):
+        score -= 1
         rect_x = random.randint(0, width - wbox)
         rect_y = random.randint(0, height - hbox)
 
