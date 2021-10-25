@@ -118,7 +118,7 @@ while running:
         print("Blue Lost!")
         running = False
 
-    if rect.colliderect(circle) and score != 0:
+    if rect.colliderect(circle):
         score -= 1
         radius += 7
         rect_x = random.randint(0, width - wbox)
