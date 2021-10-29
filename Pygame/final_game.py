@@ -1,41 +1,32 @@
 #Sherry Zhang
 #10/25/21
 
-#pygame fonts
-
 import pygame, os, random
 from pygame.locals import *
 os.system('clear')
 
 pygame.init()
 
-def display_text(msg, y, font):
-    #takes text, thickness, color
-    # pygame.time.delay(1000)
-    text = font.render(msg, 5, colors.get('black'))
-    name = window.blit(text, (width_menu/2 - text.get_width()/2, y))
+def display_text(msg, x, y, font):
+    text = font.render(msg, 5, colors[0])
+    if x == "mid":
+        name = window.blit(text, (width/2 - text.get_width()/2, y))
+
+    else:
+        name = window.blit(text, (width - text.get_width(), height - text.get_height()))
+
     return name
 
-def option_text(msg, x, y, font):
-    text = font.render(msg, 5, colors.get('black'))
-    name = window.blit(text, (x, y))
-    return name
+colors = [(0,0,0), (255,0,0), (0,0,255)]
+background_colors = [(255,255,255), (0,255,0), (169,77,255), (255,160,77)]
 
-colors = {'black':(0,0,0), 
-          'red':(255,0,0), 
-          'green':(0,255,0), 
-          'blue':(0,0,255), 
-          'white':(255,255,255), 
-          'purple':(169,77,255),
-          'orange':(255,160,77)
-          }
+background = 0
+obj_1_color = 0
+obj_2_color = obj_1_color + 1
 
-width_menu, height_menu = 600, 600
-window = pygame.display.set_mode((width_menu, height_menu))
+width, height = 500, 500
+window = pygame.display.set_mode((width, height))
 pygame.display.set_caption("Setting Window")
-
-width_game, height_game = 600, 600
-color_game = colors.get('white')
 
 TITLE_FONT = pygame.font.SysFont("Times New Roman", 80)
 SUBTITLE_FONT = pygame.font.SysFont("Times New Roman", 40)
@@ -43,14 +34,29 @@ SUBTITLE_FONT = pygame.font.SysFont("Times New Roman", 40)
 run = True
 
 screen_size_x = 110
-back_color_x = 160
+back_color_x = screen_size_x + 50
+obj_color_x = back_color_x + 50
+sound_x = obj_color_x + 50
+play_x = sound_x + 50
+
 menu = True
+settings = False
 game = False
 
-rect_y = height_game/2
-rect_x = width_game/2
-circle_x = width_game/4
-circle_y = height_game/4
+rect_y = height/2
+rect_x = width/2
+circle_x = width/4
+circle_y = height/4
+
+wbox = 30
+hbox = 30
+radius = wbox/2
+
+score = 3
+speed = 5
+key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0], [K_LEFT, 0,0,-speed,0], 
+            [K_w, 0,-speed,0,0], [K_s, 0,speed,0,0], [K_a, -speed,0,0,0], [K_d, speed,0,0,0]]
+
 while run:
 
     mouse_pos = pygame.mouse.get_pos()
@@ -59,44 +65,74 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+    
     if menu:
-        obj_color_x = back_color_x + 50
-        sound_x = obj_color_x + 50
-        play_x = sound_x + 50
+        window.fill(background_colors[background])
 
-        window.fill(colors.get('white'))
-
-        settings = display_text("Settings", 10, TITLE_FONT)
-        screen_size = display_text("Screen Size", screen_size_x, SUBTITLE_FONT)
-        background_color = display_text("Background Color", back_color_x, SUBTITLE_FONT)
-        obj_color = display_text("Object Color", obj_color_x, SUBTITLE_FONT)
-        sound = display_text("Sound On/Off", sound_x, SUBTITLE_FONT)
-        play = display_text("Play", play_x, SUBTITLE_FONT)
+        display_text("Menu", "mid", 10, TITLE_FONT)
+        instructions = display_text("Instructions", "mid", screen_size_x, SUBTITLE_FONT)
+        settings_text = display_text("Settings", "mid", back_color_x, SUBTITLE_FONT)
+        play = display_text("Play", "mid", play_x, SUBTITLE_FONT)
 
         if left_pressed:
             if play.collidepoint(mouse_pos):
                 menu = False
                 game = True
+            
+            elif settings_text.collidepoint(mouse_pos):
+                settings = True
+                menu = False
 
-            elif screen_size.collidepoint(mouse_pos):
-                back_color_x = 210
-                # width_game, height_game = 
+    if settings:
+        window.fill(background_colors[background])
+
+        display_text("Settings", "mid", 10, TITLE_FONT)
+        screen_size = display_text("Screen Size", "mid", screen_size_x, SUBTITLE_FONT)
+        background_color = display_text("Background Color", "mid", back_color_x, SUBTITLE_FONT)
+        obj_color = display_text("Object Color", "mid", obj_color_x, SUBTITLE_FONT)
+        sound = display_text("Sound On/Off", "mid", sound_x, SUBTITLE_FONT)
+        play = display_text("Play", "mid", play_x, SUBTITLE_FONT)
+
+        back = display_text("Back", 'side', 'side', SUBTITLE_FONT)
+
+        if left_pressed:
+            if screen_size.collidepoint(mouse_pos):
+                width, height = 700, 700
+                pygame.display.set_mode((width, height))
+            
+            elif background_color.collidepoint(mouse_pos):
+                if background < 3:
+                    background += 1
+                elif background == 3:
+                    background = 0
+            
+            elif obj_color.collidepoint(mouse_pos):
+                if obj_1_color == len(colors) - 2:
+                    obj_2_color = 0
+                    obj_1_color += 1
+                elif obj_1_color == len(colors) - 1:
+                    obj_1_color = 0
+                    obj_2_color = 1
+
+                else:
+                    obj_1_color += 1
+                    obj_2_color += 1
+            
+            if back.collidepoint(mouse_pos):
+                settings = False
+                menu = True
+        
+        pygame.draw.rect(window, colors[obj_1_color], (width/2 - 50, play_x + 50, hbox, wbox))
+        circle = pygame.draw.circle(window, colors[obj_2_color], (width/2 + 25, play_x + 50 + radius), radius)
     
     elif game:
         pygame.time.delay(10)
-        wbox = 30
-        hbox = 30
-        radius = wbox/2
 
-        score = 3
-        speed = 5
-
-        window.fill(color_game)
+        window.fill(background_colors[background])
         left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
 
-        rect = pygame.draw.rect(window, colors.get('blue'), (rect_x, rect_y, wbox, hbox))
-        circle = pygame.draw.circle(window, colors.get('red'), (circle_x, circle_y), radius)
+        rect = pygame.draw.rect(window, colors[obj_1_color], (rect_x, rect_y, wbox, hbox))
+        circle = pygame.draw.circle(window, colors[obj_2_color], (circle_x, circle_y), radius)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -104,47 +140,42 @@ while run:
         
         keyPressed = pygame.key.get_pressed()
 
-        if keyPressed[pygame.K_UP]:
-            rect_y -= speed
-        elif keyPressed[pygame.K_DOWN]:
-            rect_y += speed
-
-        if keyPressed[pygame.K_RIGHT]:
-            rect_x += speed
-        elif keyPressed[pygame.K_LEFT]:
-            rect_x -= speed
-
-        if rect_y <= 0:
-            rect_y = height_game - hbox
-        elif rect_y >= height_game:
-            rect_y = 0
-
-        if rect_x <= 0:
-            rect_x = width_game - wbox
-        elif rect_x >= width_game:
+        for i in key_list:
+            if keyPressed[i[0]]:
+                circle_x += i[1]
+                circle_y += i[2]
+                rect_x += i[3]
+                rect_y += i[4]
+        
+        if rect_x < 0:
+            rect_x = width
+        elif rect_x > width:
             rect_x = 0
         
-
-        if keyPressed[pygame.K_w] and circle_y > radius:
-            print('test')
-            circle_y -= speed
-        elif keyPressed[pygame.K_s] and circle_y < height_game - radius:
-            circle_y += speed
-
-        if keyPressed[pygame.K_a] and circle_x > radius:
-            circle_x -= speed
-        elif keyPressed[pygame.K_d] and circle_x <  width_game - radius:
-            circle_x += speed
-
+        if rect_y < 0:
+            rect_y = height
+        elif rect_y > height:
+            rect_y = 0
         
+        if circle_x < radius:
+            circle_x = radius
+        elif circle_x > width - radius:
+            circle_x = width - radius
+
+        if circle_y < radius:
+            circle_y = radius
+        elif circle_y > height - radius:
+            circle_y = height - radius
+
         if score == 0:
-            print("Blue Lost!")
-            running = False
+            game = False
+            settings = True
+            run = False
 
         if rect.colliderect(circle):
             score -= 1
             radius += 7
-            rect_x = random.randint(0, width_game - wbox)
-            rect_y = random.randint(0, height_game - hbox)
+            rect_x = random.randint(0, width - wbox)
+            rect_y = random.randint(0, height - hbox)
             
     pygame.display.flip()
