@@ -103,8 +103,11 @@ while run:
         exit_menu = display_text("Exit", 310, SUBTITLE_FONT, colors[0])
 
         if left_pressed:
-            if play.collidepoint(mouse_pos):
-                page = 'level_1'
+            # if play.collidepoint(mouse_pos):
+            #     page = 'level_1'
+            
+            if instructions.collidepoint(mouse_pos):
+                page = 'instructions'
             
             elif settings_text.collidepoint(mouse_pos):
                 page = 'settings'
@@ -112,6 +115,11 @@ while run:
             
             elif exit_menu.collidepoint(mouse_pos):
                 run = False
+    
+    elif page == 'instructions':
+        window.fill(background_colors[background])
+        display_text("Instructions", 10, TITLE_FONT, colors[0])
+
 
     elif page == 'settings':
         pygame.display.set_caption("Settings")
@@ -217,52 +225,52 @@ while run:
         pygame.draw.rect(window, obj_1_color, (width/4, height/4 * 3, wbox, hbox))
         pygame.draw.circle(window, obj_2_color, (width/4 * 3 - radius, height/4 * 3 + radius), radius)
 
-    elif page == 'level_1':
-        pygame.display.set_caption("Level 1")
-        pygame.time.delay(10)
+    # elif page == 'level_1':
+    #     pygame.display.set_caption("Level 1")
+    #     pygame.time.delay(10)
 
-        window.fill(background_colors[background])
+    #     window.fill(background_colors[background])
 
-        rect = pygame.draw.rect(window, obj_1_color, (rect_x, rect_y, wbox, hbox))
-        circle = pygame.draw.circle(window, obj_2_color, (circle_x, circle_y), radius)
+    #     rect = pygame.draw.rect(window, obj_1_color, (rect_x, rect_y, wbox, hbox))
+    #     circle = pygame.draw.circle(window, obj_2_color, (circle_x, circle_y), radius)
         
-        keyPressed = pygame.key.get_pressed()
+    #     keyPressed = pygame.key.get_pressed()
 
-        for i in key_list:
-            if keyPressed[i[0]]:
-                circle_x += i[1]
-                circle_y += i[2]
-                rect_x += i[3]
-                rect_y += i[4]
+    #     for i in key_list:
+    #         if keyPressed[i[0]]:
+    #             circle_x += i[1]
+    #             circle_y += i[2]
+    #             rect_x += i[3]
+    #             rect_y += i[4]
         
-        if rect_x < 0:
-            rect_x = width
-        elif rect_x > width:
-            rect_x = 0
+    #     if rect_x < 0:
+    #         rect_x = width
+    #     elif rect_x > width:
+    #         rect_x = 0
         
-        if rect_y < 0:
-            rect_y = height
-        elif rect_y > height:
-            rect_y = 0
+    #     if rect_y < 0:
+    #         rect_y = height
+    #     elif rect_y > height:
+    #         rect_y = 0
         
-        if circle_x < radius:
-            circle_x = radius
-        elif circle_x > width - radius:
-            circle_x = width - radius
+    #     if circle_x < radius:
+    #         circle_x = radius
+    #     elif circle_x > width - radius:
+    #         circle_x = width - radius
 
-        if circle_y < radius:
-            circle_y = radius
-        elif circle_y > height - radius: 
-            circle_y = height - radius
+    #     if circle_y < radius:
+    #         circle_y = radius
+    #     elif circle_y > height - radius: 
+    #         circle_y = height - radius
 
-        if score == 0:
-            page = 'menu'
-            radius = wbox/2
+    #     if score == 0:
+    #         page = 'menu'
+    #         radius = wbox/2
 
-        if rect.colliderect(circle):
-            score -= 1
-            radius += 7
-            rect_x = random.randint(0, width - wbox)
-            rect_y = random.randint(0, height - hbox)
+    #     if rect.colliderect(circle):
+    #         score -= 1
+    #         radius += 7
+    #         rect_x = random.randint(0, width - wbox)
+    #         rect_y = random.randint(0, height - hbox)
             
     pygame.display.flip()
