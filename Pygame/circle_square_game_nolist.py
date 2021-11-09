@@ -41,6 +41,9 @@ rect_x = width/2
 wbox = 30
 hbox = 30
 
+jumping = False
+jumpCount = 10
+moving = True
 
 radius = wbox/2
 circle_x = width/4
@@ -50,9 +53,6 @@ score = 3
 
 speed = 5
 
-#[key, circlex, circley, rectx, recy]
-test = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0], [K_LEFT, 0,0,-speed,0], 
-        [K_w, 0,-speed,0,0], [K_s, 0,speed,0,0], [K_a, -speed,0,0,0], [K_d, speed,0,0,0]]
 while running:
     pygame.time.delay(10)
     window.fill(color)
@@ -60,39 +60,67 @@ while running:
 
     rect = pygame.draw.rect(window, colors.get('blue'), (rect_x, rect_y, wbox, hbox))
     circle = pygame.draw.circle(window, colors.get('red'), (circle_x, circle_y), radius)
+    boulder = pygame.draw.rect(window, colors.get('black'), (width - 300, height - 200, 100, 200))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        
     
     keyPressed = pygame.key.get_pressed()
 
-    for i in test:
-        if keyPressed[i[0]]:
-            circle_x += i[1]
-            circle_y += i[2]
-            rect_x += i[3]
-            rect_y += i[4]
-    
-    if rect_x < 0:
-        rect_x = width
-    elif rect_x > width:
+    if not boulder.colliderect(rect):
+        if keyPressed[pygame.K_RIGHT]:
+            rect_x += speed
+        elif keyPressed[pygame.K_LEFT]:
+            rect_x -= speed
+
+        if not jumping:
+            if keyPressed[pygame.K_DOWN]:
+                rect_y += speed
+            elif keyPressed[pygame.K_UP]:
+                rect_y -= speed
+            elif keyPressed[pygame.K_SPACE]:
+                jumping = True
+
+        elif jumping:
+            if jumpCount >= -10:
+                rect_y -= jumpCount*abs(jumpCount)*0.5
+                jumpCount -= 1
+            else:
+                jumpCount = 10
+                jumping = False
+    else:
+        if rect_x >= width-250:
+            rect_x += 1
+
+        elif rect_x < width - 300:
+            rect_x -= 1
+        
+        if rect_y >= height - 200:
+            rect_y -= 1
+
+    if rect_x <= 0:
+        rect_x = width - wbox
+    elif rect_x >= width:
         rect_x = 0
     
-    if rect_y < 0:
-        rect_y = height
-    elif rect_y > height:
+    if rect_y <= 0:
+        rect_y = height - hbox
+    elif rect_y >= height:
         rect_y = 0
     
-    if circle_x < radius:
-        circle_x = radius
-    elif circle_x > width - radius:
-        circle_x = width - radius
+    
 
-    if circle_y < radius:
-        circle_y = radius
-    elif circle_y > height - radius:
-        circle_y = height - radius
+    if keyPressed[pygame.K_w] and circle_y > radius:
+        circle_y -= speed
+    elif keyPressed[pygame.K_s] and circle_y < height - radius:
+        circle_y += speed
+
+    if keyPressed[pygame.K_a] and circle_x > radius:
+        circle_x -= speed
+    elif keyPressed[pygame.K_d] and circle_x <  width - radius:
+        circle_x += speed
 
     
     if score == 0:
