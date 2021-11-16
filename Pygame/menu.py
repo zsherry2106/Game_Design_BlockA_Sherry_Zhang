@@ -51,7 +51,7 @@ def display_rect():
 
     for i in colors:
         rect = pygame.draw.rect(window, i, (x_pos, height/4, wbox, hbox))
-        pygame.draw.rect(window, (0,0,0), (x_pos, height/2, wbox, hbox), 1)
+        pygame.draw.rect(window, (0,0,0), (x_pos, height/4, wbox, hbox), 1)
         x_pos += 100
         rect_list.append([rect, i])
     
@@ -120,12 +120,16 @@ key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0]
             [K_w, 0,-speed,0,0], [K_s, 0,speed,0,0], [K_a, -speed,0,0,0], [K_d, speed,0,0,0]]
 
 while run:
-    mouse_pos = pygame.mouse.get_pos()
+    mouse_pos = [-1,-1]
     left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
+            continue
+        elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
+            mouse_pos = event.pos
+
         
     if page == 'menu':
         pygame.display.set_caption("Menu")
@@ -133,19 +137,18 @@ while run:
 
         menu_msg = display_text(menu_text)
 
-        if left_pressed:
             # if play.collidepoint(mouse_pos):
             #     page = 'level_1'
-            
-            if menu_msg["Instructions"].collidepoint(mouse_pos):
-                page = 'instructions'
-            
-            elif menu_msg["Settings"].collidepoint(mouse_pos):
-                page = 'settings'
-                pygame.mouse.set_pos(mouse_pos[0] - 10, mouse_pos[1] - 10)
-            
-            elif menu_msg["Exit"].collidepoint(mouse_pos):
-                run = False
+              
+        if menu_msg["Instructions"].collidepoint(mouse_pos):
+            page = 'instructions'
+        
+        elif menu_msg["Settings"].collidepoint(mouse_pos):
+            page = 'settings'
+            print(mouse_pos)
+        
+        elif menu_msg["Exit"].collidepoint(mouse_pos):
+            run = False
     
     # elif page == 'instructions':
     #     window.fill(background_colors[background])
@@ -158,20 +161,17 @@ while run:
 
         settings_msg = display_text(settings_text)
 
-        if left_pressed:
-            if settings_msg["Screen Size"].collidepoint(mouse_pos):
-                pygame.mouse.set_pos(mouse_pos[0] - 10, mouse_pos[1] - 10)
-                page = 'screen_size'
-            
-            elif settings_msg["Background Color"].collidepoint(mouse_pos):
-                pygame.mouse.set_pos(mouse_pos[0] - 10, mouse_pos[1] - 10)
-                page = 'background'
-            
-            elif settings_msg["Object Color"].collidepoint(mouse_pos):
-                page = 'obj_color'
-            
-            if settings_msg["Back"].collidepoint(mouse_pos):
-                page = 'menu'
+        if settings_msg["Screen Size"].collidepoint(mouse_pos):
+            page = 'screen_size'
+        
+        elif settings_msg["Background Color"].collidepoint(mouse_pos):  
+            page = 'background'
+        
+        elif settings_msg["Object Color"].collidepoint(mouse_pos):
+            page = 'obj_color'
+        
+        if settings_msg["Back"].collidepoint(mouse_pos):
+            page = 'menu'
     
     elif page == 'screen_size':
         pygame.display.set_caption("Screen Size Settings")
@@ -179,18 +179,17 @@ while run:
 
         screen_size_msg = display_text(screen_size_text)
 
-        if left_pressed:
-            if screen_size_msg["800 by 800"].collidepoint(mouse_pos):
-                width, height = 800, 800
-            
-            elif screen_size_msg["700 by 700"].collidepoint(mouse_pos):
-                width, height = 700, 700
-            
-            elif screen_size_msg["600 by 600"].collidepoint(mouse_pos):
-                width, height = 600, 600
-            
-            elif screen_size_msg["Back"].collidepoint(mouse_pos):
-                page = 'settings'
+        if screen_size_msg["800 by 800"].collidepoint(mouse_pos):
+            width, height = 800, 800
+        
+        elif screen_size_msg["700 by 700"].collidepoint(mouse_pos):
+            width, height = 700, 700
+        
+        elif screen_size_msg["600 by 600"].collidepoint(mouse_pos):
+            width, height = 600, 600
+        
+        elif screen_size_msg["Back"].collidepoint(mouse_pos):
+            page = 'settings'
         
         window = pygame.display.set_mode((width, height))
 
@@ -201,42 +200,38 @@ while run:
         background_rect = background_color_display()
         back_text = display_text(['Background Color', 'Back'])
 
-        if left_pressed:
-            if back_text["Back"].collidepoint(mouse_pos):
-                page = 'settings'
-            
-            elif background_rect['white'].collidepoint(mouse_pos):
-                background = 'white'
+        if back_text["Back"].collidepoint(mouse_pos):
+            page = 'settings'
+        
+        elif background_rect['white'].collidepoint(mouse_pos):
+            background = 'white'
 
-            elif background_rect['green'].collidepoint(mouse_pos):
-                background = 'green'
+        elif background_rect['green'].collidepoint(mouse_pos):
+            background = 'green'
 
-            elif background_rect['light bl'].collidepoint(mouse_pos):
-                background = 'light bl'
+        elif background_rect['light bl'].collidepoint(mouse_pos):
+            background = 'light bl'
 
-            elif background_rect['pink'].collidepoint(mouse_pos):
-                background = 'pink'
+        elif background_rect['pink'].collidepoint(mouse_pos):
+            background = 'pink'
     
     elif page == 'obj_color':
         window.fill(background_colors[background])
 
-        display_text("Object Color", 10, TITLE_FONT, (0,0,0))
+        obj_color_msg = display_text(["Object Color", 'Back'])
         rect_list = display_rect()
         circle_list = display_circle()
 
-        back = display_text("Back", height - 50, SUBTITLE_FONT, (0,0,0))
+        for rect in rect_list:
+            if rect[0].collidepoint(mouse_pos):
+                obj_1_color = rect[1]
+        
+        for circle in circle_list:
+            if circle[0].collidepoint(mouse_pos):
+                obj_2_color = circle[1]
 
-        if left_pressed:
-            for rect in rect_list:
-                if rect[0].collidepoint(mouse_pos):
-                    obj_1_color = rect[1]
-            
-            for circle in circle_list:
-                if circle[0].collidepoint(mouse_pos):
-                    obj_2_color = circle[1]
-
-            if back.collidepoint(mouse_pos):
-                page = 'settings'
+        if obj_color_msg['Back'].collidepoint(mouse_pos):
+            page = 'settings'
         
         pygame.draw.rect(window, obj_1_color, (width/4, height/4 * 3, wbox, hbox))
         pygame.draw.circle(window, obj_2_color, (width/4 * 3 - radius, height/4 * 3 + radius), radius)
