@@ -40,19 +40,25 @@ direction = 'right'
 
 walk_x = 0
 walk_y = 270
+sprite_width = 80
+sprite_height = 110
 
 image_count = 0
 right_image_list = [[25, 10, 80, 110], [116, 12, 100, 123], [220, 10, 115, 102]]
 left_image_list = [[0,151, 93, 104], [100,153,115,102], [215, 155, 95, 126]]
 
+
+
 jumping = False
 jumpCount = 10
-moving = True
+walk = True
 
 speed = 5
 
 while running:
-    pygame.time.delay(10)
+    pygame.time.delay(20)
+    boulder_1 = pygame.draw.rect(window, colors.get('black'), (152, 269, 64, 96))
+    print(pygame.mouse.get_pos())
     window.blit(background, (0,0))
     sprite_num = image_count // 15
 
@@ -60,8 +66,17 @@ while running:
         sprite_num = 0
         image_count = 0
     
-    # print(sprite_num)
+    if walk_x < 152-sprite_width:
+        walk = True
+        walk_y = 270
+    
+    elif 155-sprite_width < walk_x < 203-sprite_width and jumping:
+        walk_y = 265 - sprite_height
+        walk = True
 
+    else:
+        walk = False
+    
     if direction == 'right':
         sprite_x = right_image_list[sprite_num][0]
         sprite_y = right_image_list[sprite_num][1]
@@ -76,17 +91,13 @@ while running:
 
     walking_1 = window.blit(sprites, (walk_x, walk_y), (sprite_x, sprite_y, sprite_width, sprite_height))
 
-    left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
-
-    boulder = pygame.draw.rect(window, colors.get('black'), (width - 300, height - 200, 100, 200))
-
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         
     keyPressed = pygame.key.get_pressed()
 
-    if not boulder.colliderect(walking_1):
+    if not boulder_1.colliderect(walking_1):
         if keyPressed[pygame.K_RIGHT]:
             direction = 'right'
             image_count += 1
@@ -109,7 +120,6 @@ while running:
                 jumpCount = 10
                 jumping = False
     else:
-        print(sprite_height + walk_x)
         if jumping:
             walk_y = 300 - sprite_height
             jumping = False
@@ -125,7 +135,7 @@ while running:
         if 300< walk_y + sprite_height < 320:
             print('y')
             walk_y = 300 - sprite_height
-    
+
     if walk_x < 0:
         walk_x = 0
     elif walk_x > width - sprite_width:
