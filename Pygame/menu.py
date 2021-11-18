@@ -81,7 +81,7 @@ obj_1_color = colors[0]
 obj_2_color = colors[1]
 
 #Set page width/height - create variables to change later
-width, height = 600, 600
+width, height = 800, 800
 window = pygame.display.set_mode((width, height))
 
 #fonts needed for display
