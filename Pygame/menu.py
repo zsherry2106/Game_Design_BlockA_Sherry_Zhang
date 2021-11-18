@@ -13,15 +13,15 @@ def display_text(msg_list):
     msg_dict = {}
 
     for i in range(len(msg_list)):
-        if i == 0:
-            text = TITLE_FONT.render(msg_list[i], 5, (0,0,0))
-            msg_dict[msg_list[i]] = window.blit(text, (width/2 - text.get_width()/2, y))
-            y += 100
-
-        elif msg_list[i] == "Back":
+        if msg_list[i] == "Back":
             text = SUBTITLE_FONT.render(msg_list[i], 5, (0,0,0))
             y = height - 50
             msg_dict[msg_list[i]] = window.blit(text, (width/2 - text.get_width()/2, y))
+        
+        elif i == 0:
+            text = TITLE_FONT.render(msg_list[i], 5, (0,0,0))
+            msg_dict[msg_list[i]] = window.blit(text, (width/2 - text.get_width()/2, y))
+            y += 100
             
         else:
             text = SUBTITLE_FONT.render(msg_list[i], 5, (0,0,0))
@@ -81,7 +81,7 @@ obj_1_color = colors[0]
 obj_2_color = colors[1]
 
 #Set page width/height - create variables to change later
-width, height = 800, 800
+width, height = 700, 700
 window = pygame.display.set_mode((width, height))
 
 #fonts needed for display
@@ -93,6 +93,8 @@ settings_text = ['Settings', "Screen Size", "Background Color", "Object Color", 
 screen_size_text = ["Screen Size", "800 by 800", "700 by 700", "600 by 600", "Back"]
 
 run = True
+
+background_image = pygame.image.load("Final Game/Images/background.png")
 
 #pos for text
 screen_size_x = 110
@@ -126,7 +128,6 @@ while run:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-            continue
         elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
             mouse_pos = event.pos
 
@@ -137,10 +138,10 @@ while run:
 
         menu_msg = display_text(menu_text)
 
-            # if play.collidepoint(mouse_pos):
-            #     page = 'level_1'
+        if menu_msg['Level 1'].collidepoint(mouse_pos):
+            page = 'level_1'
               
-        if menu_msg["Instructions"].collidepoint(mouse_pos):
+        elif menu_msg["Instructions"].collidepoint(mouse_pos):
             page = 'instructions'
         
         elif menu_msg["Settings"].collidepoint(mouse_pos):
@@ -236,52 +237,11 @@ while run:
         pygame.draw.rect(window, obj_1_color, (width/4, height/4 * 3, wbox, hbox))
         pygame.draw.circle(window, obj_2_color, (width/4 * 3 - radius, height/4 * 3 + radius), radius)
 
-    # elif page == 'level_1':
-    #     pygame.display.set_caption("Level 1")
-    #     pygame.time.delay(10)
+    elif page == 'level_1':
+        window.blit(background_image, (0,0))
+        level_1_msg = display_text(['Back'])
 
-    #     window.fill(background_colors[background])
-
-    #     rect = pygame.draw.rect(window, obj_1_color, (rect_x, rect_y, wbox, hbox))
-    #     circle = pygame.draw.circle(window, obj_2_color, (circle_x, circle_y), radius)
-        
-    #     keyPressed = pygame.key.get_pressed()
-
-    #     for i in key_list:
-    #         if keyPressed[i[0]]:
-    #             circle_x += i[1]
-    #             circle_y += i[2]
-    #             rect_x += i[3]
-    #             rect_y += i[4]
-        
-    #     if rect_x < 0:
-    #         rect_x = width
-    #     elif rect_x > width:
-    #         rect_x = 0
-        
-    #     if rect_y < 0:
-    #         rect_y = height
-    #     elif rect_y > height:
-    #         rect_y = 0
-        
-    #     if circle_x < radius:
-    #         circle_x = radius
-    #     elif circle_x > width - radius:
-    #         circle_x = width - radius
-
-    #     if circle_y < radius:
-    #         circle_y = radius
-    #     elif circle_y > height - radius: 
-    #         circle_y = height - radius
-
-    #     if score == 0:
-    #         page = 'menu'
-    #         radius = wbox/2
-
-    #     if rect.colliderect(circle):
-    #         score -= 1
-    #         radius += 7
-    #         rect_x = random.randint(0, width - wbox)
-    #         rect_y = random.randint(0, height - hbox)
+        if level_1_msg['Back'].collidepoint(mouse_pos):
+            page = 'Menu'
             
     pygame.display.flip()
