@@ -142,19 +142,22 @@ while run:
             page = 'level_1'
               
         elif menu_msg["Instructions"].collidepoint(mouse_pos):
+            print('test')
             page = 'instructions'
         
         elif menu_msg["Settings"].collidepoint(mouse_pos):
             page = 'settings'
-            print(mouse_pos)
         
         elif menu_msg["Exit"].collidepoint(mouse_pos):
             run = False
-    
-    # elif page == 'instructions':
-    #     window.fill(background_colors[background])
-    #     display_text("Instructions", 10, TITLE_FONT, colors[0])
 
+    elif page == 'instructions':
+        window.fill(background_colors[background])
+        
+        instructions_msg = display_text(["Instructions", "Collect the eggs as quick as possible", 'Back'])
+
+        if menu_msg['Back'].collidepoint(mouse_pos):
+            page = 'menu'
 
     elif page == 'settings':
         pygame.display.set_caption("Settings")
@@ -242,6 +245,6 @@ while run:
         level_1_msg = display_text(['Back'])
 
         if level_1_msg['Back'].collidepoint(mouse_pos):
-            page = 'Menu'
+            page = 'menu'
             
     pygame.display.flip()
