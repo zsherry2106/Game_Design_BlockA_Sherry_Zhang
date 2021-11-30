@@ -2,6 +2,7 @@
 #11/18/21
 
 #Level 1 of Final Game
+#Test
 
 import os, pygame
 from pygame.locals import *
@@ -26,20 +27,22 @@ pink_sprite_u = [pygame.image.load("Final Game/Images/sprite_pink/pinkU1.png"),
 
 egg_image = pygame.image.load("Final Game/Images/egg1.png")
 
-def check_collide():
+def check_collide(sprite, x):
     for boundary in boundary_list:
-        if boundary.colliderect(sprite_current):
+        if boundary.colliderect(sprite):
             if keyPressed[K_LEFT]:
-                sprite_pos_x -= 5
+                x -= 5
             
             elif keyPressed[K_RIGHT]:
-                sprite_pos_x += 5
+                x += 5
             
             elif keyPressed[K_UP]:
-                sprite_pos_y -= 5
+                x -= 5
             
             elif keyPressed[K_DOWN]:
-                sprite_pos_y += 5
+                x += 5
+    
+    return x
 
 
 run = True
