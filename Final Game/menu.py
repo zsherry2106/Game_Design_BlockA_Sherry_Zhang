@@ -51,7 +51,7 @@ def display_sprite_options():
     y = 200
 
     for sprite in sprite_options:
-        window.blit(sprite, (0,0))
+        window.blit(sprite, (WIDTH/2 - sprite.get_width()/2, y))
         y += 100
     
     # return sprite_list
@@ -60,8 +60,6 @@ def display_sprite_options():
 #           Black   Red         Blue
 colors = [(255,0,0), (0,0,255)]
 background_colors = {'white': (255,255,255), 'green': (0,255,0), 'light bl': (158, 214, 219), 'pink': (235, 192, 219)}
-
-
 
 sprite_options = [pygame.image.load("Final Game\Images\sprite_pink\pinkL1.png")]
 

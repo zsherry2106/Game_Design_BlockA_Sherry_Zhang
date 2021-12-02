@@ -31,18 +31,17 @@ egg_image = pygame.image.load("Final Game/Images/egg1.png")
 def check_collide(sprite, x, y):
     for boundary in boundary_list:
         if boundary.colliderect(sprite) and 0 < x < WIDTH and 0 < y < HEIGHT:
-            print(boundary)
-            # if keyPressed[K_LEFT]:
-            #     x += 1
+            if keyPressed[K_LEFT]:
+                x = 0
             
-            # elif keyPressed[K_RIGHT]:
-            #     x -= 1
+            elif keyPressed[K_RIGHT]:
+                x = 0
             
-            # elif keyPressed[K_UP]:
-            #     y += 1
+            elif keyPressed[K_UP]:
+                y = 0
             
-            # elif keyPressed[K_DOWN]:
-            #     y -= 1
+            elif keyPressed[K_DOWN]:
+                y = 0
     
     return x, y
 
@@ -133,7 +132,7 @@ while run:
     if egg.colliderect(sprite_current):
         run = False
     
-    # sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y)
+    sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y)
     # print(sprite_pos_x, sprite_pos_y)
 
     pygame.display.flip()
