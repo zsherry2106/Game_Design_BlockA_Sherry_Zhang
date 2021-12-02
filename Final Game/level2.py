@@ -1,8 +1,7 @@
 #Sherry Zhang
-#11/18/21
+#12/2/21
 
-#Level 1 of Final Game
-#Test
+#Level 2 of Final Game
 
 import os, pygame
 from pygame.locals import *
@@ -50,7 +49,7 @@ def check_collide(sprite, x, y):
 run = True
 #Variables for sprite position
 sprite_pos_x = 0
-sprite_pos_y = 600
+sprite_pos_y = 0
 
 image = pink_sprite_l[0]
 
@@ -61,17 +60,18 @@ sprite_num = 0
 
 #list of coordinates for walls
 #x, y, width, height
-boundary_coordinate_list = [[100, 100, 5, 600], [200, 100, 5, 500], [200, 100, 300, 5], 
-                            [200, 400, 100, 5], [300, 200, 200, 5], [300, 300, 100, 5], 
-                            [400, 300, 5, 205], [300, 500, 100, 5], [300, 500, 5, 200],
-                            [500, 100, 5, 500], [400, 600, 105, 5], [500, 400, 100, 5],
-                            [600, 0, 5, 600]]
+boundary_coordinate_list = [[600, 600, 100, 5], [600, 600, 5, 100], [0, 600, 500, 5],
+                            [100, 0, 5, 500], [200, 100, 400, 5], [600, 100, 5, 400],
+                            [500, 500, 105, 5], [500, 500, 5, 105], [100, 500, 300, 5],
+                            [400, 400, 5, 105], [400, 400, 105, 5], [500, 200, 5, 200],
+                            [400, 200, 5, 100], [300, 300, 105, 5], [300, 300, 5, 200],
+                            [300, 100, 5, 100], [200, 200, 105, 5], [200, 200, 5, 200]]
 #list that contains rect for all boundaries
 boundary_list = []
 
 while run:
     window.blit(background, (0,0))
-    egg = window.blit(egg_image, (611, 0))
+    egg = window.blit(egg_image, (611, 600))
     # print(pygame.mouse.get_pos())
     keyPressed = pygame.key.get_pressed()
 
@@ -130,8 +130,8 @@ while run:
 
 
     #Check if egg has been hit
-    if egg.colliderect(sprite_current):
-        run = False
+    # if egg.colliderect(sprite_current):
+    #     run = False
     
     # sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y)
     # print(sprite_pos_x, sprite_pos_y)

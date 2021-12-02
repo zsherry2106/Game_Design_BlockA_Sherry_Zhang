@@ -1,8 +1,7 @@
 #Sherry Zhang
-#11/18/21
+#12/2/21
 
-#Level 1 of Final Game
-#Test
+#Level 3 of Final Game
 
 import os, pygame
 from pygame.locals import *
@@ -50,7 +49,7 @@ def check_collide(sprite, x, y):
 run = True
 #Variables for sprite position
 sprite_pos_x = 0
-sprite_pos_y = 600
+sprite_pos_y = 0
 
 image = pink_sprite_l[0]
 
@@ -61,11 +60,10 @@ sprite_num = 0
 
 #list of coordinates for walls
 #x, y, width, height
-boundary_coordinate_list = [[100, 100, 5, 600], [200, 100, 5, 500], [200, 100, 300, 5], 
-                            [200, 400, 100, 5], [300, 200, 200, 5], [300, 300, 100, 5], 
-                            [400, 300, 5, 205], [300, 500, 100, 5], [300, 500, 5, 200],
-                            [500, 100, 5, 500], [400, 600, 105, 5], [500, 400, 100, 5],
-                            [600, 0, 5, 600]]
+boundary_coordinate_list = [[100, 0, 5, 600], [100, 200, 400, 5], [100, 600, 600, 5],
+                            [500, 600, 5, 100], [200, 200, 5, 300], [200, 500, 400, 5],
+                            [600, 0, 5, 505], [600, 200, 100, 5], [500, 0, 5, 405],
+                            [400, 300, 5, 200]]
 #list that contains rect for all boundaries
 boundary_list = []
 
@@ -130,10 +128,10 @@ while run:
 
 
     #Check if egg has been hit
-    if egg.colliderect(sprite_current):
-        run = False
+    # if egg.colliderect(sprite_current):
+    #     run = False
     
-    # sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y)
+    sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y)
     # print(sprite_pos_x, sprite_pos_y)
 
     pygame.display.flip()
