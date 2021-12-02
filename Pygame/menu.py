@@ -3,7 +3,7 @@
 
 import pygame, os, random, time
 from pygame.locals import *
-os.system('clear')
+os.system('cls')
 
 pygame.init()
 
@@ -30,6 +30,7 @@ def display_text(msg_list):
 
     return msg_dict
 
+#Draw obj for background color selection
 def background_color_display():
     x = 110
     msg_dict = {}
@@ -137,19 +138,20 @@ while run:
         window.fill(background_colors[background])
 
         menu_msg = display_text(menu_text)
+        print(menu_msg['Level 1'])
 
-        if menu_msg['Level 1'].collidepoint(mouse_pos):
-            page = 'level_1'
+        # if menu_msg['Level 1'].collidepoint(mouse_pos):
+        #     page = 'level_1'
               
-        elif menu_msg["Instructions"].collidepoint(mouse_pos):
-            print('test')
-            page = 'instructions'
+        # elif menu_msg["Instructions"].collidepoint(mouse_pos):
+        #     print('test')
+        #     page = 'instructions'
         
-        elif menu_msg["Settings"].collidepoint(mouse_pos):
-            page = 'settings'
+        # elif menu_msg["Settings"].collidepoint(mouse_pos):
+        #     page = 'settings'
         
-        elif menu_msg["Exit"].collidepoint(mouse_pos):
-            run = False
+        # elif menu_msg["Exit"].collidepoint(mouse_pos):
+        #     run = False
 
     elif page == 'instructions':
         window.fill(background_colors[background])
