@@ -5,6 +5,7 @@ import pygame, os, random, time
 from pygame.locals import *
 os.system('cls')
 
+
 pygame.init()
 
 #func to display text
@@ -15,7 +16,7 @@ def display_text(msg_list):
     for i in range(len(msg_list)):
         if msg_list[i] == "Back":
             text = SUBTITLE_FONT.render(msg_list[i], 5, (0,0,0))
-            y = height - 50
+            y = HEIGHT - 50
             msg_dict[msg_list[i]] = window.blit(text, (WIDTH/2 - text.get_width()/2, y))
         
         elif i == 0:
@@ -31,13 +32,13 @@ def display_text(msg_list):
     return msg_dict
 
 def background_color_display():
-    x = 110
+    x = WIDTH/4
     msg_dict = {}
     
     for i in background_colors:
         color = background_colors[i]
-        rect = pygame.draw.rect(window, color, (x, height/2, wbox, hbox))
-        pygame.draw.rect(window, (0,0,0), (x, height/2, wbox, hbox), 1)
+        rect = pygame.draw.rect(window, color, (x, HEIGHT/2, wbox, hbox))
+        pygame.draw.rect(window, (0,0,0), (x, HEIGHT/2, wbox, hbox), 1)
         x += 100
 
         msg_dict[i] = rect
@@ -69,8 +70,8 @@ obj_1_color = colors[0]
 obj_2_color = colors[1]
 
 #Set page width/height - create variables to change later
-WIDTH, height = 700, 700
-window = pygame.display.set_mode((WIDTH, height))
+WIDTH, HEIGHT = 700, 700
+window = pygame.display.set_mode((WIDTH, HEIGHT))
 
 #fonts needed for display
 TITLE_FONT = pygame.font.SysFont("Times New Roman", 80)
@@ -84,6 +85,15 @@ run = True
 
 background_image = pygame.image.load("Final Game/Images/background.png")
 
+#list to append lines of scoreboard to to display later
+scoreboard_text = ['Scoreboard']
+current_folder = os.path.dirname(os.path.abspath(__file__))
+with open(os.path.join(current_folder, 'scoreboard.txt'), "r") as myfile:
+    for line in myfile:
+        if line != "\n":
+            scoreboard_text.append(line)
+scoreboard_text.append('Back')
+
 #pos for text
 screen_size_x = 110
 back_color_x = screen_size_x + 50
@@ -95,10 +105,10 @@ play_x = sound_x + 50
 page = 'menu'
 
 #variables for game
-rect_y = height/2
+rect_y = HEIGHT/2
 rect_x = WIDTH/2
 circle_x = WIDTH/4
-circle_y = height/4
+circle_y = HEIGHT/4
 wbox = 30
 hbox = 30
 radius = wbox/2
@@ -134,6 +144,9 @@ while run:
         
         elif menu_msg["Settings"].collidepoint(mouse_pos):
             page = 'settings'
+        
+        elif menu_msg['Scoreboard'].collidepoint(mouse_pos):
+            page = 'scoreboard'
         
         elif menu_msg["Exit"].collidepoint(mouse_pos):
             run = False
@@ -172,18 +185,18 @@ while run:
         screen_size_msg = display_text(screen_size_text)
 
         if screen_size_msg["800 by 800"].collidepoint(mouse_pos):
-            WIDTH, height = 800, 800
+            WIDTH, HEIGHT = 800, 800
         
         elif screen_size_msg["700 by 700"].collidepoint(mouse_pos):
-            WIDTH, height = 700, 700
+            WIDTH, HEIGHT = 700, 700
         
         elif screen_size_msg["600 by 600"].collidepoint(mouse_pos):
-            WIDTH, height = 600, 600
+            WIDTH, HEIGHT = 600, 600
         
         elif screen_size_msg["Back"].collidepoint(mouse_pos):
             page = 'settings'
         
-        # window = pygame.display.set_mode((WIDTH, height))
+        # window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     elif page == 'background':
         window.fill(background_colors[background])
@@ -227,6 +240,14 @@ while run:
             page = 'settings'
         
         # window.blit()
+
+    elif page == 'scoreboard':
+        window.fill(background_colors[background])
+
+        scoreboard_msg = display_text(scoreboard_text)
+
+        if scoreboard_msg['Back'].collidepoint(mouse_pos):
+            page = 'menu'
 
     elif page == 'level_1':
         import level1
