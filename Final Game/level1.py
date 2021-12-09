@@ -13,6 +13,7 @@ pygame.init()
 def level_1_page(name):
     WIDTH, HEIGHT = 700, 700
 
+    pygame.display.set_caption("Level 1")
     window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     background = pygame.image.load("Final Game/Images/background.png")
@@ -33,13 +34,13 @@ def level_1_page(name):
         for i in range(len(boundary_list)):
             if sprite.colliderect(boundary_list[i]):
                 if direction == 'left':
-                    x = boundary_coordinate_list[i][0] + 7
+                    x = boundary_coordinate_list[i][0] + 7 + boundary_coordinate_list[i][2]
 
                 elif direction == 'right':
                     x = boundary_coordinate_list[i][0] - image.get_width() - 7
 
                 elif direction == 'up':
-                    y = boundary_coordinate_list[i][1]
+                    y = boundary_coordinate_list[i][1] + boundary_coordinate_list[i][3]
 
                 elif direction == 'down':
                     y = boundary_coordinate_list[i][1] - image.get_height() - 7
@@ -143,17 +144,12 @@ def level_1_page(name):
             pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3]))
 
         #Check if egg has been hit
-        # if egg.colliderect(sprite_current):
-            #add passed time to scoreboard file
-        current_folder = os.path.dirname(os.path.abspath(__file__))
-        with open(os.path.join(current_folder, 'scoreboard.txt'), "w") as myfile:
-            for line in myfile:
-                if line.split()[2] < time_passed:
-                    with open(os.path.join(current_folder, 'scoreboard.txt'), "w") as myfile:
-                        myfile.write(f"\n{name}- Level1: {time_passed/1000}")
-
-            # myfile.write(f"\n{name}- Level1: {time_passed/1000}")
-            # run = False
+        if egg.colliderect(sprite_current):
+            # add passed time to scoreboard file
+            current_folder = os.path.dirname(os.path.abspath(__file__))
+            with open(os.path.join(current_folder, 'scoreboard1.txt'), "w") as myfile:
+                myfile.write(f"\n{name}- Level1: {time_passed/1000}")
+            run = False
         
         text = TIMER_FONT.render('Back', 5, (0,0,0))
         back_text = window.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT - 50))

@@ -59,10 +59,10 @@ def display_sprite_options():
     # return sprite_list
 
 #Display scoreboard from txt file
-def display_scoreboard():
-    txt = ['Scoreboard']
+def display_scoreboard(level):
+    txt = [f'Scoreboard Level{level}']
     current_folder = os.path.dirname(os.path.abspath(__file__))
-    with open(os.path.join(current_folder, 'scoreboard.txt'), "r") as myfile:
+    with open(os.path.join(current_folder, f'scoreboard{level}.txt'), "r") as myfile:
         for line in myfile:
             if line != "\n":
                 txt.append(line)
@@ -99,7 +99,7 @@ run = True
 
 background_image = pygame.image.load("Final Game/Images/background.png")
 
-scoreboard_text = display_scoreboard()
+scoreboard_main_text = ['Scoreboard', 'Level 1', 'Level 2', 'Level 3', 'Back']
 
 #pos for text
 screen_size_x = 110
@@ -129,6 +129,7 @@ key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0]
 # name = input("Enter your name: ")
 name = 'Sherry'
 while run:
+    window.fill(background_colors[background])
     #Set mouse pos so that it doesn't click through to next page
     mouse_pos = [-1,-1]
     left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
@@ -141,7 +142,6 @@ while run:
         
     if page == 'menu':
         pygame.display.set_caption("Menu")
-        window.fill(background_colors[background])
 
         menu_msg = display_text(menu_text)
 
@@ -167,8 +167,7 @@ while run:
             run = False
 
     elif page == 'instructions':
-        window.fill(background_colors[background])
-        
+        pygame.display.set_caption("Instructions")
         instructions_msg = display_text(["Instructions", "Collect the eggs as quick as possible", 
                                          'Use the arrow keys to move', 'Back'])
 
@@ -177,7 +176,6 @@ while run:
 
     elif page == 'settings':
         pygame.display.set_caption("Settings")
-        window.fill(background_colors[background])
 
         settings_msg = display_text(settings_text)
 
@@ -195,7 +193,6 @@ while run:
     
     elif page == 'screen_size':
         pygame.display.set_caption("Screen Size Settings")
-        window.fill(background_colors[background])
 
         screen_size_msg = display_text(screen_size_text)
 
@@ -214,7 +211,6 @@ while run:
         # window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     elif page == 'background':
-        window.fill(background_colors[background])
         pygame.display.set_caption("Background Color Settings")
 
         background_rect = background_color_display()
@@ -236,8 +232,7 @@ while run:
             background = 'pink'
     
     elif page == 'sprite':
-        window.fill(background_colors[background])
-
+        pygame.display.set_caption("Sprite Options")
         obj_color_msg = display_text(["Sprite", 'Back'])
 
         display_sprite_options()
@@ -257,34 +252,61 @@ while run:
         # window.blit()
 
     elif page == 'scoreboard':
-        window.fill(background_colors[background])
-
-        scoreboard_msg = display_text(scoreboard_text)
+        pygame.display.set_caption("Scoreboard Selection")
+        scoreboard_msg = display_text(scoreboard_main_text)
 
         if scoreboard_msg['Back'].collidepoint(mouse_pos):
             page = 'menu'
+        
+        elif scoreboard_msg['Level 1'].collidepoint(mouse_pos):
+            page = 'score_level1'
+        
+        elif scoreboard_msg['Level 2'].collidepoint(mouse_pos):
+            page = 'score_level2'
+        
+        elif scoreboard_msg['Level 3'].collidepoint(mouse_pos):
+            print('test')
+            page = 'score_level3'
+    
+    elif page == 'score_level1':
+        pygame.display.set_caption("Scoreboard Level 1")
+        score_level1_text = display_scoreboard(1)
+        score_level1_msg = display_text(score_level1_text)
+
+        if score_level1_msg['Back'].collidepoint(mouse_pos):
+            page = 'scoreboard'
+    
+    elif page == 'score_level2':
+        pygame.display.set_caption("Scoreboard Level 2")
+        score_level2_text = display_scoreboard(2)
+        score_level2_msg = display_text(score_level2_text)
+
+        if score_level2_msg['Back'].collidepoint(mouse_pos):
+            page = 'scoreboard'
+    
+    elif page == 'score_level3':
+        pygame.display.set_caption("Scoreboard Level 3")
+        score_level3_text = display_scoreboard(3)
+        score_level3_msg = display_text(score_level3_text)
+
+        if score_level3_msg['Back'].collidepoint(mouse_pos):
+            page = 'scoreboard'
 
     elif page == 'level_1':
         import level1
         level1.level_1_page(name)
-
-        scoreboard_text = display_scoreboard()
         page = 'menu'
     
     elif page == 'level_2':
         import level2
         level2.level_2_page(name)
-
-        scoreboard_text = display_scoreboard()
         page = 'menu'
 
     elif page == 'level_3':
         import level3
         level3.level_3_page(name)
-
-        scoreboard_text = display_scoreboard()
         page = 'menu'
-            
+
     pygame.display.flip()
 
 pygame.quit()

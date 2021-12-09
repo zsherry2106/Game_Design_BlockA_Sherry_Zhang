@@ -13,6 +13,7 @@ pygame.init()
 def level_2_page(name):
     WIDTH, HEIGHT = 700, 700
 
+    pygame.display.set_caption("Level 2")
     window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     background = pygame.image.load("Final Game/Images/background.png")
@@ -43,13 +44,13 @@ def level_2_page(name):
         for i in range(len(boundary_list)):
             if sprite.colliderect(boundary_list[i]):
                 if direction == 'left':
-                    x = boundary_coordinate_list[i][0] + 7
+                    x = boundary_coordinate_list[i][0] + 7 + boundary_coordinate_list[i][2]
 
                 elif direction == 'right':
                     x = boundary_coordinate_list[i][0] - image.get_width() - 7
 
                 elif direction == 'up':
-                    y = boundary_coordinate_list[i][1]
+                    y = boundary_coordinate_list[i][1] + boundary_coordinate_list[i][3]
 
                 elif direction == 'down':
                     y = boundary_coordinate_list[i][1] - image.get_height() - 7
@@ -103,11 +104,9 @@ def level_2_page(name):
         for portal in portal_image_list:
             window.blit(portal[0], (portal[1], portal[2]))
 
-        time_passed = pygame.time.get_ticks() - time_start
-        stopwatch = TIMER_FONT.render(str(time_passed / 1000), True, (0,0,0))
         window.blit(stopwatch, (0, 0))
 
-        egg = window.blit(egg_image, (611, 600))
+        egg = window.blit(egg_image, (611, 610))
         # print(pygame.mouse.get_pos())
         keyPressed = pygame.key.get_pressed()
 
@@ -165,12 +164,17 @@ def level_2_page(name):
         for i in boundary_coordinate_list:
             pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3]))
 
+        time_passed = pygame.time.get_ticks() - time_start
+        stopwatch = TIMER_FONT.render(str(time_passed / 1000), True, (0,0,0))
+
         #Check if egg has been hit
         if egg.colliderect(sprite_current):
             #add passed time to scoreboard file
             current_folder = os.path.dirname(os.path.abspath(__file__))
-            with open(os.path.join(current_folder, 'scoreboard.txt'), "w") as myfile:
+            with open(os.path.join(current_folder, 'scoreboard2.txt'), "w") as myfile:
                 myfile.write(f"\n{name}- Level2: {time_passed/1000}")
+            
+            run = False
 
         #Call portals function
         sprite_pos_x, sprite_pos_y = portals(sprite_current, sprite_pos_x, sprite_pos_y)
