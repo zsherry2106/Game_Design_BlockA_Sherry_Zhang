@@ -31,8 +31,9 @@ def display_text(msg_list):
 
     return msg_dict
 
+#Display background color options
 def background_color_display():
-    x = WIDTH/4
+    x = WIDTH/len(background_colors)
     msg_dict = {}
     
     for i in background_colors:
@@ -57,6 +58,18 @@ def display_sprite_options():
     
     # return sprite_list
 
+#Display scoreboard from txt file
+def display_scoreboard():
+    txt = ['Scoreboard']
+    current_folder = os.path.dirname(os.path.abspath(__file__))
+    with open(os.path.join(current_folder, 'scoreboard.txt'), "r") as myfile:
+        for line in myfile:
+            if line != "\n":
+                txt.append(line)
+    txt.append('Back')
+
+    return txt
+
 #Colors
 #           Black   Red         Blue
 colors = [(255,0,0), (0,0,255)]
@@ -77,6 +90,7 @@ window = pygame.display.set_mode((WIDTH, HEIGHT))
 TITLE_FONT = pygame.font.SysFont("Times New Roman", 80)
 SUBTITLE_FONT = pygame.font.SysFont("Times New Roman", 40)
 
+#Lists of messages to display on pages
 menu_text = ["Menu", "Instructions",  "Settings", "Scoreboard", "Level 1", "Level 2", "Level 3", "Exit"]
 settings_text = ['Settings', "Screen Size", "Background Color", "Sprite", "Sound On/Off", "Back"]
 screen_size_text = ["Screen Size", "800 by 800", "700 by 700", "600 by 600", "Back"]
@@ -85,14 +99,7 @@ run = True
 
 background_image = pygame.image.load("Final Game/Images/background.png")
 
-#list to append lines of scoreboard to to display later
-scoreboard_text = ['Scoreboard']
-current_folder = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(current_folder, 'scoreboard.txt'), "r") as myfile:
-    for line in myfile:
-        if line != "\n":
-            scoreboard_text.append(line)
-scoreboard_text.append('Back')
+scoreboard_text = display_scoreboard()
 
 #pos for text
 screen_size_x = 110
@@ -119,7 +126,10 @@ speed = 5
 key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0], [K_LEFT, 0,0,-speed,0], 
             [K_w, 0,-speed,0,0], [K_s, 0,speed,0,0], [K_a, -speed,0,0,0], [K_d, speed,0,0,0]]
 
+# name = input("Enter your name: ")
+name = 'Sherry'
 while run:
+    #Set mouse pos so that it doesn't click through to next page
     mouse_pos = [-1,-1]
     left_pressed, middle_pressed, right_pressed = pygame.mouse.get_pressed()
 
@@ -128,7 +138,6 @@ while run:
             run = False
         elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0]:
             mouse_pos = event.pos
-
         
     if page == 'menu':
         pygame.display.set_caption("Menu")
@@ -138,6 +147,12 @@ while run:
 
         if menu_msg['Level 1'].collidepoint(mouse_pos):
             page = 'level_1'
+        
+        elif menu_msg['Level 2'].collidepoint(mouse_pos):
+            page = 'level_2'
+
+        elif menu_msg['Level 3'].collidepoint(mouse_pos):
+            page = 'level_3'
               
         elif menu_msg["Instructions"].collidepoint(mouse_pos):
             page = 'instructions'
@@ -251,6 +266,25 @@ while run:
 
     elif page == 'level_1':
         import level1
+        level1.level_1_page(name)
+
+        scoreboard_text = display_scoreboard()
+        page = 'menu'
+    
+    elif page == 'level_2':
+        import level2
+        level2.level_2_page(name)
+
+        scoreboard_text = display_scoreboard()
+        page = 'menu'
+
+    elif page == 'level_3':
+        import level3
+        level3.level_3_page(name)
+
+        scoreboard_text = display_scoreboard()
         page = 'menu'
             
     pygame.display.flip()
+
+pygame.quit()

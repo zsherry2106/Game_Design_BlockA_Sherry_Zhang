@@ -29,35 +29,29 @@ def level_1_page(name):
     egg_image = pygame.image.load("Final Game/Images/egg1.png")
 
     #check if sprite collides with walls/boundaries
-    def check_collide(sprite, x, y, direction):
-        for i in boundary_list:
-            if sprite.colliderect(i):
-                print("test")
-                x += direction_dict[direction][0]
-                y += direction_dict[direction][1]
+    def check_collide(sprite, image, x, y, direction):
+        for i in range(len(boundary_list)):
+            if sprite.colliderect(boundary_list[i]):
+                if direction == 'left':
+                    x = boundary_coordinate_list[i][0] + 7
+
+                elif direction == 'right':
+                    x = boundary_coordinate_list[i][0] - image.get_width() - 7
+
+                elif direction == 'up':
+                    y = boundary_coordinate_list[i][1]
+
+                elif direction == 'down':
+                    y = boundary_coordinate_list[i][1] - image.get_height() - 7
 
         return x, y
-
 
     run = True
     #Variables for sprite position
     sprite_pos_x = 0
     sprite_pos_y = 600
 
-    collide_delay = 0
-
-    image = pink_sprite_l[0]
-
     sprite_direction = "right"
-
-    direction_dict = {'up': [0, 5], 'down': [0, -5], 'left': [5,0], 'right': [-5,0]}
-
-
-    time_start = pygame.time.get_ticks()
-    TIMER_FONT = pygame.font.SysFont("Times New Roman", 40)
-
-    #sprite_num - used to calculate which sprite to use out of list of 3
-    sprite_num = 0
 
     #list of coordinates for walls
     #x, y, width, height
@@ -68,10 +62,22 @@ def level_1_page(name):
                                 [600, 0, 5, 600]]
     #list that contains rect for all boundaries
     boundary_list = []
+    #Append physical rect to boundary_list
+    for i in boundary_coordinate_list:
+        boundary_list.append(pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3])))
+
+    #variable to control speed of sprite
+    speed = 2
+
+    #Settings for timer including start time + font
+    time_start = pygame.time.get_ticks()
+    TIMER_FONT = pygame.font.SysFont("Times New Roman", 40)
+
+    #sprite_num - used to calculate which sprite to use out of list of 3
+    sprite_num = 0
 
     while run:
         window.blit(background, (0,0))
-
 
         time_passed = pygame.time.get_ticks() - time_start
         stopwatch = TIMER_FONT.render(str(time_passed / 1000), True, (0,0,0))
@@ -99,48 +105,64 @@ def level_1_page(name):
 
         if 0 <= sprite_pos_x <= WIDTH - image_current.get_width() and 0 <= sprite_pos_y <= HEIGHT - image_current.get_height():   
             if keyPressed[K_LEFT]:
-                sprite_pos_x -= 5
+                sprite_pos_x -= speed
                 sprite_num += 1
                 sprite_direction = 'left'
             
             elif keyPressed[K_RIGHT]:
-                sprite_pos_x += 5
+                sprite_pos_x += speed
                 sprite_num += 1
                 sprite_direction = 'right'
             
             elif keyPressed[K_UP]:
-                sprite_pos_y -= 5
+                sprite_pos_y -= speed
                 sprite_num += 1
                 sprite_direction = 'up'
             
             elif keyPressed[K_DOWN]:
                 sprite_num += 1
-                sprite_pos_y += 5
+                sprite_pos_y += speed
                 sprite_direction = 'down'
         
-        if 0 > sprite_pos_x:
+        #if hits borders - stop moving and reset
+        if sprite_pos_x < 0:
             sprite_pos_x = 1
         
         elif sprite_pos_x + image_current.get_width() > WIDTH:
-            sprite_pos_x = WIDTH - 1
+            sprite_pos_x = WIDTH - image_current.get_width()
         
-        if 0 > sprite_pos_y:
+        if sprite_pos_y < 0:
             sprite_pos_y = 1
         
         elif sprite_pos_y + image_current.get_height() > HEIGHT:
-            sprite_pos_y = HEIGHT -1
+            sprite_pos_y = HEIGHT- image_current.get_height()
         
 
         #draw walls/boundaries
         for i in boundary_coordinate_list:
-            boundary_list.append(pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3])))
-
+            pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3]))
 
         #Check if egg has been hit
-        if egg.colliderect(sprite_current):
-            run = False
+        # if egg.colliderect(sprite_current):
+            #add passed time to scoreboard file
+        current_folder = os.path.dirname(os.path.abspath(__file__))
+        with open(os.path.join(current_folder, 'scoreboard.txt'), "w") as myfile:
+            for line in myfile:
+                if line.split()[2] < time_passed:
+                    with open(os.path.join(current_folder, 'scoreboard.txt'), "w") as myfile:
+                        myfile.write(f"\n{name}- Level1: {time_passed/1000}")
+
+            # myfile.write(f"\n{name}- Level1: {time_passed/1000}")
+            # run = False
         
-        sprite_pos_x, sprite_pos_y = check_collide(sprite_current, sprite_pos_x, sprite_pos_y, sprite_direction)
+        text = TIMER_FONT.render('Back', 5, (0,0,0))
+        back_text = window.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT - 50))
+
+        sprite_pos_x, sprite_pos_y = check_collide(sprite_current, image_current, sprite_pos_x, sprite_pos_y, sprite_direction)
+
+        if pygame.mouse.get_pressed()[0]:
+            if back_text.collidepoint(pygame.mouse.get_pos()):
+                run = False
 
         pygame.display.flip()
 
@@ -148,7 +170,3 @@ def level_1_page(name):
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
-
-    current_folder = os.path.dirname(os.path.abspath(__file__))
-    with open(os.path.join(current_folder, 'scoreboard.txt'), "a") as myfile:
-        myfile.write(f"\n{name}: {time_passed/1000}")
