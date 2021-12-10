@@ -49,14 +49,14 @@ def background_color_display():
 #Display sprites for sprite options
 def display_sprite_options():
     #Append displayed sprites for later interaction/selection (check collide)
-    sprite_list = []
+    rect_list = []
     y = 200
 
     for sprite in sprite_options:
-        window.blit(sprite, (WIDTH/2 - sprite.get_width()/2, y))
+        rect_list.append(window.blit(sprite, (WIDTH/2 - sprite.get_width()/2, y)))
         y += 100
     
-    # return sprite_list
+    return rect_list
 
 #Display scoreboard from txt file
 def display_scoreboard(level):
@@ -75,7 +75,11 @@ def display_scoreboard(level):
 colors = [(255,0,0), (0,0,255)]
 background_colors = {'white': (255,255,255), 'green': (0,255,0), 'light bl': (158, 214, 219), 'pink': (235, 192, 219)}
 
-sprite_options = [pygame.image.load("Final Game\Images\sprite_pink\pinkL1.png")]
+#Sprite options
+sprite_options = [pygame.image.load("Final Game\Images\sprites\pinkL1.png"), pygame.image.load("Final Game\Images\sprites\purpleL1.png")]
+#Variable for sprite selected
+sprite_selection = 'pink'
+sprite_num = 0
 
 #Set default colors
 background = 'white'
@@ -92,7 +96,7 @@ SUBTITLE_FONT = pygame.font.SysFont("Times New Roman", 40)
 
 #Lists of messages to display on pages
 menu_text = ["Menu", "Instructions",  "Settings", "Scoreboard", "Level 1", "Level 2", "Level 3", "Exit"]
-settings_text = ['Settings', "Screen Size", "Background Color", "Sprite", "Sound On/Off", "Back"]
+settings_text = ['Settings', "Screen Size", "Background Color", "Sprite", "Back"]
 screen_size_text = ["Screen Size", "800 by 800", "700 by 700", "600 by 600", "Back"]
 
 run = True
@@ -129,6 +133,7 @@ key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0]
 # name = input("Enter your name: ")
 name = 'Sherry'
 while run:
+    window = pygame.display.set_mode((WIDTH, HEIGHT))
     window.fill(background_colors[background])
     #Set mouse pos so that it doesn't click through to next page
     mouse_pos = [-1,-1]
@@ -207,8 +212,6 @@ while run:
         
         elif screen_size_msg["Back"].collidepoint(mouse_pos):
             page = 'settings'
-        
-        # window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     elif page == 'background':
         pygame.display.set_caption("Background Color Settings")
@@ -235,21 +238,20 @@ while run:
         pygame.display.set_caption("Sprite Options")
         obj_color_msg = display_text(["Sprite", 'Back'])
 
-        display_sprite_options()
-        # print(sprite_options)
+        rect_sprites = display_sprite_options()
 
-        # for i in sprite_options:
-        #     if i[0].collidepoint(mouse_pos):
-        #         obj_1_color = i[1]
+        if rect_sprites[0].collidepoint(mouse_pos):
+            sprite_selection = 'pink'
+            sprite_num = 0
         
-        # for circle in circle_list:
-        #     if circle[0].collidepoint(mouse_pos):
-        #         obj_2_color = circle[1]
+        elif rect_sprites[1].collidepoint(mouse_pos):
+            sprite_selection = 'purple'
+            sprite_num = 1
 
         if obj_color_msg['Back'].collidepoint(mouse_pos):
             page = 'settings'
         
-        # window.blit()
+        window.blit(sprite_options[sprite_num], (WIDTH/2 - sprite_options[sprite_num].get_width()/2, HEIGHT/4*3))
 
     elif page == 'scoreboard':
         pygame.display.set_caption("Scoreboard Selection")
@@ -265,7 +267,6 @@ while run:
             page = 'score_level2'
         
         elif scoreboard_msg['Level 3'].collidepoint(mouse_pos):
-            print('test')
             page = 'score_level3'
     
     elif page == 'score_level1':
@@ -293,18 +294,21 @@ while run:
             page = 'scoreboard'
 
     elif page == 'level_1':
+        WIDTH, HEIGHT = 700, 700
         import level1
-        level1.level_1_page(name)
+        level1.level_1_page(name, sprite_selection)
         page = 'menu'
     
     elif page == 'level_2':
+        WIDTH, HEIGHT = 700, 700
         import level2
-        level2.level_2_page(name)
+        level2.level_2_page(name, sprite_selection)
         page = 'menu'
 
     elif page == 'level_3':
+        WIDTH, HEIGHT = 700, 700
         import level3
-        level3.level_3_page(name)
+        level3.level_3_page(name, sprite_selection)
         page = 'menu'
 
     pygame.display.flip()

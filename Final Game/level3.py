@@ -10,22 +10,23 @@ from pygame.locals import *
 os.system('cls')
 pygame.init()
 
-def level_3_page(name):
+def level_3_page(name, sprite_choice):
     WIDTH, HEIGHT = 700, 700
 
     pygame.display.set_caption("Level 3")
     window = pygame.display.set_mode((WIDTH, HEIGHT))
 
     background = pygame.image.load("Final Game/Images/background.png")
-    pink_sprite_l = [pygame.image.load("Final Game/Images/sprite_pink/pinkL1.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkL2.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkL3.png")]
-    pink_sprite_r = [pygame.image.load("Final Game/Images/sprite_pink/pinkR1.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkR2.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkR3.png")]
-    pink_sprite_u = [pygame.image.load("Final Game/Images/sprite_pink/pinkU1.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkU2.png"), 
-                    pygame.image.load("Final Game/Images/sprite_pink/pinkU3.png")]
+ 
+    sprite_l = [pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}L1.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}L2.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}L3.png")]
+    sprite_r = [pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}R1.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}R2.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}R3.png")]
+    sprite_u = [pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}U1.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}U2.png"), 
+                pygame.image.load(f"Final Game/Images/sprites/{sprite_choice}U3.png")]
     
     portal_right_image = pygame.image.load("Final Game\Images\portalR.png")
     portal_left_image = pygame.image.load("Final Game\Images\portalL.png")
@@ -114,26 +115,22 @@ def level_3_page(name):
         for portal in portal_image_list:
             window.blit(portal[0], (portal[1], portal[2]))
 
-        time_passed = pygame.time.get_ticks() - time_start
-        stopwatch = TIMER_FONT.render(str(time_passed / 1000), True, (0,0,0))
-        window.blit(stopwatch, (0, 0))
-
         egg = window.blit(egg_image, (611, 100))
         # print(pygame.mouse.get_pos())
         keyPressed = pygame.key.get_pressed()
 
-        if (sprite_num // 15) == len(pink_sprite_l):
+        if (sprite_num // 15) == len(sprite_l):
             sprite_num = 0
 
         #Choose sprite direction and then choose image
         if sprite_direction == 'left' or sprite_direction == 'down':
-            image_current = pink_sprite_l[sprite_num // 15]
+            image_current = sprite_l[sprite_num // 15]
 
         elif sprite_direction == 'right':
-            image_current = pink_sprite_r[sprite_num // 15]
+            image_current = sprite_r[sprite_num // 15]
 
         elif sprite_direction == 'up':
-            image_current = pink_sprite_u[sprite_num // 15]
+            image_current = sprite_u[sprite_num // 15]
 
         sprite_current = window.blit(image_current, (sprite_pos_x, sprite_pos_y))
 
@@ -175,12 +172,16 @@ def level_3_page(name):
         #draw walls/boundaries
         for i in boundary_coordinate_list:
             pygame.draw.rect(window, (169, 177, 131), (i[0], i[1], i[2], i[3]))
+        
+        time_passed = pygame.time.get_ticks() - time_start
+        stopwatch = TIMER_FONT.render(str(time_passed / 1000), True, (0,0,0))
+        window.blit(stopwatch, (0, 0))
 
         #Check if egg has been hit
         if egg.colliderect(sprite_current):
             #add passed time to scoreboard file
             current_folder = os.path.dirname(os.path.abspath(__file__))
-            with open(os.path.join(current_folder, 'scoreboard3.txt'), "w") as myfile:
+            with open(os.path.join(current_folder, 'scoreboard3.txt'), "a") as myfile:
                 myfile.write(f"\n{name}- Level3: {time_passed/1000}")
             
             run = False
