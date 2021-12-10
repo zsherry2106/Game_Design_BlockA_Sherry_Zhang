@@ -297,19 +297,25 @@ while run:
         WIDTH, HEIGHT = 700, 700
         import level1
         level1.level_1_page(name, sprite_selection)
-        page = 'menu'
+        page = 'win'
     
     elif page == 'level_2':
         WIDTH, HEIGHT = 700, 700
         import level2
         level2.level_2_page(name, sprite_selection)
-        page = 'menu'
+        page = 'win'
 
     elif page == 'level_3':
         WIDTH, HEIGHT = 700, 700
         import level3
         level3.level_3_page(name, sprite_selection)
-        page = 'menu'
+        page = 'win'
+    
+    elif page == 'win':
+        win_msg = display_text(['You Won!', 'Back'])
+
+        if win_msg['Back'].collidepoint(mouse_pos):
+            page = 'menu'
 
     pygame.display.flip()
 
