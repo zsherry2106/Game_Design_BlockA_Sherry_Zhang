@@ -149,8 +149,8 @@ def level_1_page(name, sprite_choice):
             # add passed time to scoreboard file
             current_folder = os.path.dirname(os.path.abspath(__file__))
             with open(os.path.join(current_folder, 'scoreboard1.txt'), "a") as myfile:
-                myfile.write(f"\n{name}- Level1: {time_passed/1000}")
-            run = False
+                myfile.write(f"\n{name}- Level 1: {time_passed/1000}")
+            return 'win'
         
         text = TIMER_FONT.render('Back', 5, (0,0,0))
         back_text = window.blit(text, (WIDTH/2 - text.get_width()/2, HEIGHT - 50))
@@ -159,7 +159,7 @@ def level_1_page(name, sprite_choice):
 
         if pygame.mouse.get_pressed()[0]:
             if back_text.collidepoint(pygame.mouse.get_pos()):
-                run = False
+                return 'menu'
 
         pygame.display.flip()
 

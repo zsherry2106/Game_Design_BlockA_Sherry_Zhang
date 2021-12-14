@@ -130,8 +130,7 @@ speed = 5
 key_list = [[K_UP, 0,0,0, -speed], [K_DOWN, 0,0,0,speed], [K_RIGHT, 0,0,speed,0], [K_LEFT, 0,0,-speed,0], 
             [K_w, 0,-speed,0,0], [K_s, 0,speed,0,0], [K_a, -speed,0,0,0], [K_d, speed,0,0,0]]
 
-# name = input("Enter your name: ")
-name = 'Sherry'
+name = input("Enter your name: ")
 while run:
     window = pygame.display.set_mode((WIDTH, HEIGHT))
     window.fill(background_colors[background])
@@ -150,6 +149,8 @@ while run:
 
         menu_msg = display_text(menu_text)
 
+        #Display text returns dictionary with {'txt': rect for txt}
+        #Check if collide with rectangle - switch page
         if menu_msg['Level 1'].collidepoint(mouse_pos):
             page = 'level_1'
         
@@ -296,20 +297,17 @@ while run:
     elif page == 'level_1':
         WIDTH, HEIGHT = 700, 700
         import level1
-        level1.level_1_page(name, sprite_selection)
-        page = 'win'
+        page = level1.level_1_page(name, sprite_selection)
     
     elif page == 'level_2':
         WIDTH, HEIGHT = 700, 700
         import level2
-        level2.level_2_page(name, sprite_selection)
-        page = 'win'
+        page = level2.level_2_page(name, sprite_selection)
 
     elif page == 'level_3':
         WIDTH, HEIGHT = 700, 700
         import level3
-        level3.level_3_page(name, sprite_selection)
-        page = 'win'
+        page = level3.level_3_page(name, sprite_selection)
     
     elif page == 'win':
         win_msg = display_text(['You Won!', 'Back'])

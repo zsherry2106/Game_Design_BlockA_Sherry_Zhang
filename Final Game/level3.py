@@ -182,9 +182,9 @@ def level_3_page(name, sprite_choice):
             #add passed time to scoreboard file
             current_folder = os.path.dirname(os.path.abspath(__file__))
             with open(os.path.join(current_folder, 'scoreboard3.txt'), "a") as myfile:
-                myfile.write(f"\n{name}- Level3: {time_passed/1000}")
+                myfile.write(f"\n{name}- Level 3: {time_passed/1000}")
             
-            run = False
+            return 'win'
 
         #Call portals function
         sprite_pos_x, sprite_pos_y = portals(sprite_current, sprite_pos_x, sprite_pos_y)
@@ -196,7 +196,7 @@ def level_3_page(name, sprite_choice):
 
         if pygame.mouse.get_pressed()[0]:
             if back_text.collidepoint(pygame.mouse.get_pos()):
-                run = False
+                return 'menu'
 
         pygame.display.flip()
 
